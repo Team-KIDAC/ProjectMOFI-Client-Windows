@@ -7,6 +7,7 @@ import {
     Image,
     TouchableOpacity,
     TextInput,
+    StyleSheet
 } from 'react-native';
 
 
@@ -18,37 +19,147 @@ const TenthPage: () => Node = () => {
     }
 
     return (
-        <View style={{ display: 'flex', flexDirection: 'column', width: "100%", height: "100%" }}>
-            <View style={{ width: "70%", height: "110%", position: 'absolute', top: "20%", right: "70%", borderRadius: 500, borderColor: "brown", borderWidth: 3 }}></View>
-            <View style={{ width: "70%", height: "110%", position: 'absolute', bottom: "20%", left: "60%", borderRadius: 500, borderColor: "#2f5c83", borderWidth: 3 }}></View>
-            <View style={{ flexDirection: "column", height: "100%", padding: 10 }}>
-                <View style={{ width: "100%", height: "20%", display: 'flex', flexDirection: 'row' }}>
-                    <View style={{ width: "25%", height: "70%" }}>
-                        <Image source={require('../assets/images/ProjectMOFI_WhiteBackground.jpeg')} style={{ resizeMode: "contain", height: "100%", width: "100%" }} />
+        <View style={styles.style1}>
+            <View style={styles.style2}></View>
+            <View style={styles.style3}></View>
+            <View style={styles.style4}>
+                <View style={styles.style5}>
+                    <View style={styles.style6}>
+                        <Image source={require('../assets/images/ProjectMOFI_WhiteBackground.jpeg')} style={styles.style11} />
                     </View>
                 </View>
-                <View style={{ width: "100%", height: "60%", alignItems: 'center', justifyContent: 'center' }}>
-                    <View style={{ zIndex: 2, backgroundColor: "#011e36", display: 'flex', flexDirection: 'row', width: "70%", height: "80%", borderRadius: 20 }}>
-                        <View style={{ height: "100%", width: "50%", padding: 20 }}>
-                            <View style={{ height: "100%", width: "100%", borderColor: "#02e6c8", borderWidth: 3, borderRadius: 5 }}>
-                                <Image source={pageData.front_image} style={{ resizeMode: "contain", height: "100%", width: "100%" }} />
+                <View style={styles.style7}>
+                    <View style={styles.style8}>
+                        <View style={styles.style9}>
+                            <View style={styles.style10}>
+                                <Image source={pageData.front_image} style={styles.style11} />
                             </View>
                         </View>
-                        <View style={{ height: "100%", width: "50%", padding: 20 }}>
-                            <View style={{ height: "100%", width: "100%", borderColor: "#02e6c8", borderWidth: 3, borderRadius: 5 }}>
-                                <Image source={pageData.side_image} style={{ resizeMode: "contain", height: "100%", width: "100%" }} />
+                        <View style={styles.style9}>
+                            <View style={styles.style10}>
+                                <Image source={pageData.side_image} style={styles.style11} />
                             </View>
                         </View>
                     </View>
                 </View>
-                <View style={{ height: "20%", width: "100%", display: "flex", flexDirection: 'row', justifyContent: 'center' }}>
-                    <Text style={{ color: "#a44322", fontSize: 50, fontWeight: '700' }}>Access Denied</Text>
-                    <Image source={require('../assets/icons/times-circle-solid.svg')} style={{ resizeMode: "contain", marginLeft: 5, marginTop: 13, width: 45, height: 45 }} />
+                <View style={styles.style12}>
+                    <Text style={styles.style13}>Access Denied</Text>
+                    <Image source={require('../assets/icons/times-circle-solid.svg')} style={styles.style14} />
                 </View>
             </View>
         </View>
     );
 
 }
+
+const styles = StyleSheet.create({
+    style1: {
+        display: 'flex',
+        flexDirection: 'column',
+        width: "100%",
+        height: "100%"
+    },
+    
+    style2: {
+        width: "70%",
+        height: "110%",
+        position: 'absolute',
+        top: "20%",
+        right: "70%",
+        borderRadius: 500,
+        borderColor: "brown",
+        borderWidth: 3
+    },
+
+    style3: {
+        width: "70%",
+        height: "110%",
+        position: 'absolute',
+        bottom: "20%",
+        left: "60%",
+        borderRadius: 500,
+        borderColor: "#2f5c83",
+        borderWidth: 3
+    },
+
+    style4: {
+        flexDirection: "column",
+        height: "100%",
+        padding: 10
+    },
+
+    style5: {
+        width: "100%",
+        height: "20%",
+        display: 'flex',
+        flexDirection: 'row'
+    },
+
+    style6: {
+        width: "25%",
+        height: "70%"
+    },
+
+    style7: {
+        width: "100%",
+        height: "60%",
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+    style8: {
+        zIndex: 2,
+        backgroundColor: "#011e36",
+        display: 'flex',
+        flexDirection: 'row',
+        width: "70%",
+        height: "80%",
+        borderRadius: 20
+    },
+
+    style9: {
+        height: "100%",
+        width: "50%",
+        padding: 20
+    },
+
+    style10: {
+        height: "100%",
+        width: "100%",
+        borderColor: "#02e6c8",
+        borderWidth: 3,
+        borderRadius: 5
+    },
+
+    style11: {
+        resizeMode: "contain",
+        height: "100%",
+        width: "100%"
+    },
+
+    style12: {
+        height: "20%",
+        width: "100%",
+        display: "flex",
+        flexDirection: 'row',
+        justifyContent: 'center'
+    },
+
+    style13: {
+        color: "#a44322",
+        fontSize: 50,
+        fontWeight: '700'
+    },
+    
+    style14: {
+        resizeMode: "contain",
+        marginLeft: 5,
+        marginTop: 13,
+        width: 45,
+        height: 45
+    },
+
+
+});
 
 export default TenthPage;

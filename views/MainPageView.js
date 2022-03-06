@@ -18,6 +18,7 @@ import {
 } from 'react-native';
 
 import SideBar from '../components/SideBar';
+import LoginPageView from './LoginPageView';
 import DisplayCameraStatusView from './DisplayCameraStatusView';
 import AddNewEmployeeView from './AddNewEmployeeView';
 import ViewEmployeeDataView from './ViewEmployeeDataView';
@@ -37,22 +38,34 @@ var pageData = {
 
 class MainPageView extends Component {
 
-    state = { selectedComp: 0 };
+    state = {
+        selectedComp: 0,
+        IsSideBarActive: false
+    };
 
     render() {
         return (
             <View style={styles.mainWindowView}>
-                <View style={styles.sideBarWindow}>
-                    {/*<SideBar name={pageData.name_of_user} />*/}
-                    <SideBar setSelectedComp={(compNum) => { this.setState({ selectedComp: compNum }) }} />
+                {
+                    (this.state.IsSideBarActive) ?
+                        <View style={styles.sideBarWindow}>
+                            <SideBar setSelectedComp={(compNum) => { this.setState({ selectedComp: compNum }) }} />
+                            <View style={styles.bottomLogoView}>
+                                <Image source={require('../assets/images/ProjectMOFI.svg')} style={styles.bottomLogoImage} />
+                            </View>
+                        </View>
 
-                    <View style={styles.bottomLogoView}>
-                        <Image source={require('../assets/images/ProjectMOFI.svg')} style={styles.bottomLogoImage} />
-                    </View>
-
-                </View>
-                <View style={styles.contentSectionView}>
-                    {(this.state.selectedComp == 0) ? <DisplayCameraStatusView /> : (this.state.selectedComp == 1) ? <AddNewEmployeeView /> : (this.state.selectedComp == 2) ? <ViewEmployeeDataView /> : (this.state.selectedComp == 3) ? <ViewAttendanceReportView /> : null}
+                        : null
+                }
+                <View style={(this.state.IsSideBarActive) ? styles.contentSectionView : styles.contentSectionViewWithoutSideBar}>
+                    {
+                        (this.state.selectedComp == 0) ? <LoginPageView />
+                        : (this.state.selectedComp == 2) ? <DisplayCameraStatusView />
+                            : (this.state.selectedComp == 3) ? <AddNewEmployeeView />
+                                : (this.state.selectedComp == 4) ? <ViewEmployeeDataView />
+                                    : (this.state.selectedComp == 5) ? <ViewAttendanceReportView />
+                                        : null
+                    }
                 </View>
             </View>
         );
@@ -99,6 +112,10 @@ const styles = StyleSheet.create({
     },
     contentSectionView: {
         width: "80%",
+        padding: 50
+    },
+    contentSectionViewWithoutSideBar: {
+        width: "100%",
         padding: 50
     },
     userLoginImage: {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+﻿import React, { Component } from 'react';
 import type { Node } from 'react';
 
 import {
@@ -11,6 +11,7 @@ import {
     useColorScheme,
     Image,
     View,
+    FlatList,
     Touchable,
     TouchableOpacity,
     TouchableHighlight,
@@ -29,9 +30,16 @@ var pageData = {
     "image2": require('../assets/images/masked_face_side_view.jpg'),
     "image3": require('../assets/images/masked_face_side_view.jpg'),
     "image4": require('../assets/images/masked_face_side_view.jpg'),
-    "image5": require('../assets/images/masked_face_side_view.jpg')
+    "image5": require('../assets/images/masked_face_side_view.jpg'),
 }
 
+var takenPhotoPath = "C:\\Users\\kalindu Rithmal\\AppData\\Local\\Packages\\67aeba77-534a-4b36-8d08-e3262aa8bdd7_st1rvm8mzrq5y\\TempState\\20220306_171919.jpg";
+
+var TakenPhotoModel = ({ itemUrl }) => (
+    <View style={{ height: "100%", justifyContent: 'center' }}>
+        <Image source={{ uri: itemUrl }} style={styles.capturedSmallImage} />
+    </View>
+);
 
 class AddNewEmployeeView extends Component {
 
@@ -40,8 +48,8 @@ class AddNewEmployeeView extends Component {
         EmployeeName: "",
         DepartmentName: "",
         VaccinationName: "",
-        TestVal: "Test",
-        TakenPhotos: ["C:/Users/kalindu Rithmal/AppData/Local/Packages/67aeba77-534a-4b36-8d08-e3262aa8bdd7_st1rvm8mzrq5y/TempState/20220306_002947.jpg"]
+        NumberOfTakenPhotos: 0,
+        ImgArray: []
     };
 
     render() {
@@ -51,7 +59,7 @@ class AddNewEmployeeView extends Component {
                     <View style={styles.halfContentSectionView}>
                         <View style={styles.topicSection}>
                             <Text style={styles.topicText}>
-                                Add New Employee {this.state.TakenPhotos[0]}
+                                Add New Employee {this.state.TestVal}
                             </Text>
                             <View style={styles.topicBottomLine}></View>
                         </View>
@@ -65,14 +73,9 @@ class AddNewEmployeeView extends Component {
                             <Text style={styles.inputTopic}>Vaccination Name</Text>
                             <TextInput style={styles.inputText} onChangeText={text => { this.setState({ VaccinationName: text }) }} />
 
-                            <Text style={styles.inputTopic}>Photos (6 Photos)</Text>
+                            <Text style={styles.inputTopic}>Photos ({this.state.NumberOfTakenPhotos} Photos)</Text>
                             <View style={styles.capturedSmallImagesView}>
-                                <Image source={ this.state.TakenPhotos[0] } style={styles.capturedSmallImage} />
-                                <Image source={pageData.image1} style={styles.capturedSmallImage} />
-                                <Image source={pageData.image2} style={styles.capturedSmallImage} />
-                                <Image source={pageData.image3} style={styles.capturedSmallImage} />
-                                <Image source={pageData.image4} style={styles.capturedSmallImage} />
-                                <Image source={pageData.image5} style={styles.capturedSmallImage} />
+                                {(this.state.NumberOfTakenPhotos > 0) ? <FlatList data={this.state.ImgArray} horizontal style={{ width: "100%", height: "100%" }} renderItem={TakenPhotoModel} /> : null}
                             </View>
 
                         </View>
@@ -88,13 +91,12 @@ class AddNewEmployeeView extends Component {
                         <View style={styles.employeeDetailsView}>
                             <View style={styles.bigImageView}>
                                 <RNCamera ref={ref => { this.camera = ref; }} style={{ width: "100%", height: "100%" }} type={RNCamera.Constants.Type.front} />
-                                {/*<Image source={pageData.side_image} style={styles.bigImage} />*/}
                             </View>
                             <View style={styles.captureClearButtonView}>
                                 <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.captureButton}>
                                     <Text style={styles.captureClearButtonText} >Capture</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.clearButton}>
+                                <TouchableOpacity onPress={() => { this.setState({ ImgArray: [], NumberOfTakenPhotos: 0 }) }} style={styles.clearButton}>
                                     <Text style={styles.captureClearButtonText} >Clear</Text>
                                 </TouchableOpacity>
                             </View>
@@ -111,12 +113,20 @@ class AddNewEmployeeView extends Component {
     }
 
     takePicture = async () => {
-        if (this.camera) {
+        this.setState({ ImgArray: [], NumberOfTakenPhotos: 0 });
 
-            const options = { quality: 1, base64: true };
-            const data = await this.camera.takePictureAsync(options);
-            this.setState(prevState => { TakenPhotos: prevState.TakenPhotos.push(data.uri) });
-            console.log(this.state.TakenPhotos[0]);
+        for (var i = 0; i < 30; i++) {
+            try {
+                if (this.camera) {
+                    const options = { quality: 1, base64: true };
+                    const data = await this.camera.takePictureAsync(options);
+                    this.setState((prevState) => { prevState.ImgArray.unshift(data.uri) })
+                    this.setState({ NumberOfTakenPhotos: i + 1 });
+                    console.log(this.state.ImgArray);
+                }
+            } catch (ex) {
+                i--;
+            }
         }
     }
 
@@ -136,7 +146,7 @@ class AddNewEmployeeView extends Component {
     }
 
     postDetails = () => {
-        
+
         var collectedData = `{
           "id": "${this.state.EmployeeId}",
           "name": "${this.state.EmployeeName}",
@@ -149,9 +159,9 @@ class AddNewEmployeeView extends Component {
         request.setRequestHeader('Content-Type', 'application/json');
         request.onload = () => {
             //if (request.status == 201) {
-                console.log(JSON.parse(request.response));
+            console.log(JSON.parse(request.response));
             //} else {
-                //console.log(`error ${request.status}`);
+            //console.log(`error ${request.status}`);
             //}
         }
         request.send(collectedData);
@@ -223,13 +233,14 @@ const styles = StyleSheet.create({
         borderRadius: 7,
         display: 'flex',
         flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'center'
+        //flexWrap: 'wrap',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     capturedSmallImage: {
         resizeMode: "contain",
-        height: "50%",
-        width: "30%"
+        height: 150,
+        width: 300
     },
     bigImageView: {
         backgroundColor: "white",

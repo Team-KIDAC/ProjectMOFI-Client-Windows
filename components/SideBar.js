@@ -32,7 +32,7 @@ class SideBar extends Component {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.sideBarButtonSectionView}>
-                    <TouchableOpacity onPress={() => { this.props.setSelectedComp(0) }}>
+                    <TouchableOpacity onPress={() => { this.props.setSelectedComp(2) }}>
                         <View style={styles.sideBarButtonView}>
                             <Image source={require('../assets/icons/face_white_24dp.svg')} style={styles.sideBarButtonImage} />
                             <Text style={styles.sideBarButtonText}>
@@ -41,7 +41,7 @@ class SideBar extends Component {
                         </View>
                         <View style={styles.buttonBottomBlueBar}></View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => { this.props.setSelectedComp(1) }}>
+                    <TouchableOpacity onPress={() => { this.props.setSelectedComp(3) }}>
                         <View style={styles.sideBarButtonView}>
                             <Image source={require('../assets/icons/how_to_reg_white_24dp.svg')} style={styles.sideBarButtonImage} />
                             <Text style={styles.sideBarButtonText}>
@@ -50,7 +50,7 @@ class SideBar extends Component {
                         </View>
                         <View style={styles.buttonBottomBlueBar}></View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => { this.props.setSelectedComp(2) }}>
+                    <TouchableOpacity onPress={() => { this.props.setSelectedComp(4) }}>
                         <View style={styles.sideBarButtonView}>
                             <Image source={require('../assets/icons/visibility_white_24dp.svg')} style={styles.sideBarButtonImage} />
                             <Text style={styles.sideBarButtonText}>
@@ -59,7 +59,7 @@ class SideBar extends Component {
                         </View>
                         <View style={styles.buttonBottomBlueBar}></View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => { this.props.setSelectedComp(3) }}>
+                    <TouchableOpacity onPress={() => { this.props.setSelectedComp(5) }}>
                         <View style={styles.sideBarButtonView}>
                             <Image source={require('../assets/icons/stacked_bar_chart_white_24dp.svg')} style={styles.sideBarButtonImage} />
                             <Text style={styles.sideBarButtonText}>

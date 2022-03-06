@@ -22,6 +22,7 @@ import DisplayCameraStatusView from './DisplayCameraStatusView';
 import AddNewEmployeeView from './AddNewEmployeeView';
 import ViewEmployeeDataView from './ViewEmployeeDataView';
 import ViewAttendanceReportView from './ViewAttendanceReportView';
+//import NewSideBar from '../components/NewSideBar';
 
 var pageData = {
     "name_of_user": "Dewmin Madiwila",
@@ -43,52 +44,8 @@ class MainPageView extends Component {
             <View style={styles.mainWindowView}>
                 <View style={styles.sideBarWindow}>
                     {/*<SideBar name={pageData.name_of_user} />*/}
+                    <SideBar setSelectedComp={(compNum) => { this.setState({ selectedComp: compNum }) }} />
 
-                    <View style={styles.userDetailsView}>
-                        <Image source={require('../assets/icons/account_circle_192e40.svg')} style={styles.userLoginImage} />
-                        <Text style={styles.userNameText}>{pageData.name_of_user}</Text>
-                        <TouchableOpacity >
-                            <Text style={styles.logOutButtonText}>Log Out</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.sideBarButtonSectionView}>
-                        <TouchableOpacity onPress={() => { this.setState({ selectedComp: 0 }) }}>
-                            <View style={styles.sideBarButtonView}>
-                                <Image source={require('../assets/icons/face_white_24dp.svg')} style={styles.sideBarButtonImage} />
-                                <Text style={styles.sideBarButtonText}>
-                                    Face Recognition
-                                </Text>
-                            </View>
-                            <View style={styles.buttonBottomBlueBar}></View>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => { this.setState({ selectedComp: 1 }) }}>
-                            <View style={styles.sideBarButtonView}>
-                                <Image source={require('../assets/icons/how_to_reg_white_24dp.svg')} style={styles.sideBarButtonImage} />
-                                <Text style={styles.sideBarButtonText}>
-                                    Register Employee
-                                </Text>
-                            </View>
-                            <View style={styles.buttonBottomBlueBar}></View>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => { this.setState({ selectedComp: 2 }) }}>
-                            <View style={styles.sideBarButtonView}>
-                                <Image source={require('../assets/icons/visibility_white_24dp.svg')} style={styles.sideBarButtonImage} />
-                                <Text style={styles.sideBarButtonText}>
-                                    View Employee
-                                </Text>
-                            </View>
-                            <View style={styles.buttonBottomBlueBar}></View>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => { this.setState({ selectedComp: 3 }) }}>
-                            <View style={styles.sideBarButtonView}>
-                                <Image source={require('../assets/icons/stacked_bar_chart_white_24dp.svg')} style={styles.sideBarButtonImage} />
-                                <Text style={styles.sideBarButtonText}>
-                                    Attendance Report
-                                </Text>
-                            </View>
-                            <View style={styles.buttonBottomBlueBar}></View>
-                        </TouchableOpacity>
-                    </View>
                     <View style={styles.bottomLogoView}>
                         <Image source={require('../assets/images/ProjectMOFI.svg')} style={styles.bottomLogoImage} />
                     </View>
@@ -100,7 +57,12 @@ class MainPageView extends Component {
             </View>
         );
     }
+
+    setSelectedComp(chosenNum) {
+        this.setState({ selectedComp: chosenNum });
+    }
 }
+
 
 //var myState = 0;
 

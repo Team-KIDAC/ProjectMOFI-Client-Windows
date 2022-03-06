@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
     StyleSheet,
     Text,
@@ -7,64 +7,93 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import { Def } from '../node_modules/ast-types/lib/types';
+import MainPageView from '../views/MainPageView';
 
-function SideBar(props) {
+var pageData = {
+    "name_of_user": "Dewmin Madiwila",
+    "side_image": require('../assets/images/masked_face_side_view.jpg'),
+    "image0": require('../assets/images/masked_face_side_view.jpg'),
+    "image1": require('../assets/images/masked_face_side_view.jpg'),
+    "image2": require('../assets/images/masked_face_side_view.jpg'),
+    "image3": require('../assets/images/masked_face_side_view.jpg'),
+    "image4": require('../assets/images/masked_face_side_view.jpg'),
+    "image5": require('../assets/images/masked_face_side_view.jpg')
+}
 
-    return (
-        <View>
-            <View style={styles.userDetailsView}>
-                <Image source={require('../assets/icons/account_circle_192e40.svg')} style={styles.userLoginImage} />
-                <Text style={styles.userNameText}>{props.name}</Text>
-                <TouchableOpacity >
-                    <Text style={styles.logOutButtonText}>Log Out</Text>
+class SideBar extends Component {
+    render() {
+        return (
+            <View>
+                <View style={styles.userDetailsView}>
+                    <Image source={require('../assets/icons/account_circle_192e40.svg')} style={styles.userLoginImage} />
+                    <Text style={styles.userNameText}>{pageData.name_of_user}</Text>
+                    <TouchableOpacity >
+                        <Text style={styles.logOutButtonText}>Log Out</Text>
                     </TouchableOpacity>
+                </View>
+                <View style={styles.sideBarButtonSectionView}>
+                    <TouchableOpacity onPress={() => { this.props.setSelectedComp(0) }}>
+                        <View style={styles.sideBarButtonView}>
+                            <Image source={require('../assets/icons/face_white_24dp.svg')} style={styles.sideBarButtonImage} />
+                            <Text style={styles.sideBarButtonText}>
+                                Face Recognition
+                            </Text>
+                        </View>
+                        <View style={styles.buttonBottomBlueBar}></View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => { this.props.setSelectedComp(1) }}>
+                        <View style={styles.sideBarButtonView}>
+                            <Image source={require('../assets/icons/how_to_reg_white_24dp.svg')} style={styles.sideBarButtonImage} />
+                            <Text style={styles.sideBarButtonText}>
+                                Register Employee
+                            </Text>
+                        </View>
+                        <View style={styles.buttonBottomBlueBar}></View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => { this.props.setSelectedComp(2) }}>
+                        <View style={styles.sideBarButtonView}>
+                            <Image source={require('../assets/icons/visibility_white_24dp.svg')} style={styles.sideBarButtonImage} />
+                            <Text style={styles.sideBarButtonText}>
+                                View Employee
+                            </Text>
+                        </View>
+                        <View style={styles.buttonBottomBlueBar}></View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => { this.props.setSelectedComp(3) }}>
+                        <View style={styles.sideBarButtonView}>
+                            <Image source={require('../assets/icons/stacked_bar_chart_white_24dp.svg')} style={styles.sideBarButtonImage} />
+                            <Text style={styles.sideBarButtonText}>
+                                Attendance Report
+                            </Text>
+                        </View>
+                        <View style={styles.buttonBottomBlueBar}></View>
+                    </TouchableOpacity>
+                </View>
             </View>
-            <View style={styles.sideBarButtonSectionView}>
-                <TouchableOpacity>
-                    <View style={styles.sideBarButtonView}>
-                        <Image source={require('../assets/icons/face_white_24dp.svg')} style={styles.sideBarButtonImage} />
-                        <Text style={styles.sideBarButtonText}>
-                            Face Recognition
-                        </Text>
-                    </View>
-                    <View style={styles.buttonBottomBlueBar}></View>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <View style={styles.sideBarButtonView}>
-                        <Image source={require('../assets/icons/how_to_reg_white_24dp.svg')} style={styles.sideBarButtonImage} />
-                        <Text style={styles.sideBarButtonText}>
-                            Register Employee
-                        </Text>
-                    </View>
-                    <View style={styles.buttonBottomBlueBar}></View>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <View style={styles.sideBarButtonView}>
-                        <Image source={require('../assets/icons/visibility_white_24dp.svg')} style={styles.sideBarButtonImage} />
-                        <Text style={styles.sideBarButtonText}>
-                            View Employee
-                        </Text>
-                    </View>
-                    <View style={styles.buttonBottomBlueBar}></View>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <View style={styles.sideBarButtonView}>
-                        <Image source={require('../assets/icons/stacked_bar_chart_white_24dp.svg')} style={styles.sideBarButtonImage} />
-                        <Text style={styles.sideBarButtonText}>
-                            Attendance Report
-                        </Text>
-                    </View>
-                    <View style={styles.buttonBottomBlueBar}></View>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.bottomLogoView}>
-                <Image source={require('../assets/images/ProjectMOFI.svg')} style={styles.bottomLogoImage} />
-            </View>
-        </View>
-    );
+        );
+    }
 }
 
 const styles = StyleSheet.create({
+    mainWindowView: {
+        flexDirection: "row",
+        backgroundColor: "#011e36",
+        height: "100%",
+        padding: 10
+    },
+    sideBarWindow: {
+        backgroundColor: "#011e36",
+        height: "100%",
+        width: "20%",
+        borderColor: "#02e6c8",
+        borderRightWidth: 5,
+        paddingTop: 10,
+        paddingRight: 10
+    },
+    contentSectionView: {
+        width: "80%",
+        padding: 50
+    },
     userLoginImage: {
         resizeMode: "contain",
         width: "50%",

@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\components",
+    "\\views"
   ],
-  "SelectedNode": "\\projectmofi_client_windows.sln",
+  "SelectedNode": "\\views\\MainPageView.js",
   "PreviewInSolutionExplorer": false
 }

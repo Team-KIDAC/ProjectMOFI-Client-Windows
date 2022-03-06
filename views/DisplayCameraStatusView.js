@@ -22,7 +22,7 @@ var pageData = {
 }
 
 class DisplayCameraStatusView extends Component {
-    state = { accessStatus: 0, photoId: 0 };
+    state = { accessStatus: 0, photoId: 0, takenPhotos: [] };
 
     render() {
         return (
@@ -41,7 +41,7 @@ class DisplayCameraStatusView extends Component {
                             {/*<Image source={pageData.side_image} style={{ resizeMode: "contain", height: "100%", width: "100%" }} />*/}
                         </View>
                         <View style={styles.CameraFuncButtonsView}>
-                            <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.CameraFuncCaptureButton}>
+                            <TouchableOpacity onPress={this.takePicture} style={styles.CameraFuncCaptureButton}>
                                 <Text style={styles.CameraFuncButtonText} >Capture</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => { Linking.openURL('app-settings:') }} style={styles.CameraFuncClearButton}>
@@ -113,6 +113,7 @@ class DisplayCameraStatusView extends Component {
             const options = { quality: 1, base64: true };
             const data = await this.camera.takePictureAsync(options);
             console.log(data.uri);
+            this.state.takenPhotos.push(data.uri);
 
             //moveFile(data.uri, 'destination/unicorn.png');
             //console.log('The file has been moved');

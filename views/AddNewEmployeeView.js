@@ -39,7 +39,9 @@ class AddNewEmployeeView extends Component {
         EmployeeId: "",
         EmployeeName: "",
         DepartmentName: "",
-        VaccinationName: ""
+        VaccinationName: "",
+        TestVal: "Test",
+        TakenPhotos: ["C:/Users/kalindu Rithmal/AppData/Local/Packages/67aeba77-534a-4b36-8d08-e3262aa8bdd7_st1rvm8mzrq5y/TempState/20220306_002947.jpg"]
     };
 
     render() {
@@ -49,7 +51,7 @@ class AddNewEmployeeView extends Component {
                     <View style={styles.halfContentSectionView}>
                         <View style={styles.topicSection}>
                             <Text style={styles.topicText}>
-                                Add New Employee
+                                Add New Employee {this.state.TakenPhotos[0]}
                             </Text>
                             <View style={styles.topicBottomLine}></View>
                         </View>
@@ -65,7 +67,7 @@ class AddNewEmployeeView extends Component {
 
                             <Text style={styles.inputTopic}>Photos (6 Photos)</Text>
                             <View style={styles.capturedSmallImagesView}>
-                                <Image source={pageData.image0} style={styles.capturedSmallImage} />
+                                <Image source={ this.state.TakenPhotos[0] } style={styles.capturedSmallImage} />
                                 <Image source={pageData.image1} style={styles.capturedSmallImage} />
                                 <Image source={pageData.image2} style={styles.capturedSmallImage} />
                                 <Image source={pageData.image3} style={styles.capturedSmallImage} />
@@ -89,7 +91,7 @@ class AddNewEmployeeView extends Component {
                                 {/*<Image source={pageData.side_image} style={styles.bigImage} />*/}
                             </View>
                             <View style={styles.captureClearButtonView}>
-                                <TouchableOpacity style={styles.captureButton}>
+                                <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.captureButton}>
                                     <Text style={styles.captureClearButtonText} >Capture</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity style={styles.clearButton}>
@@ -106,6 +108,16 @@ class AddNewEmployeeView extends Component {
                 </View>
             </View>
         );
+    }
+
+    takePicture = async () => {
+        if (this.camera) {
+
+            const options = { quality: 1, base64: true };
+            const data = await this.camera.takePictureAsync(options);
+            this.setState(prevState => { TakenPhotos: prevState.TakenPhotos.push(data.uri) });
+            console.log(this.state.TakenPhotos[0]);
+        }
     }
 
     getDetails = () => {

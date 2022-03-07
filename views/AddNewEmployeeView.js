@@ -1,43 +1,20 @@
 ﻿import React, { Component } from 'react';
-import type { Node } from 'react';
 
 import {
-    Button,
-    SafeAreaView,
-    ScrollView,
-    StatusBar,
     StyleSheet,
     Text,
-    useColorScheme,
     Image,
     View,
     FlatList,
-    Touchable,
     TouchableOpacity,
-    TouchableHighlight,
     TextInput,
 } from 'react-native';
 
-import SideBar from '../components/SideBar';
-
 import { RNCamera } from 'react-native-camera';
 
-var pageData = {
-    "name_of_user": "Dewmin Madiwila",
-    "side_image": require('../assets/images/masked_face_side_view.jpg'),
-    "image0": require('../assets/images/masked_face_side_view.jpg'),
-    "image1": require('../assets/images/masked_face_side_view.jpg'),
-    "image2": require('../assets/images/masked_face_side_view.jpg'),
-    "image3": require('../assets/images/masked_face_side_view.jpg'),
-    "image4": require('../assets/images/masked_face_side_view.jpg'),
-    "image5": require('../assets/images/masked_face_side_view.jpg'),
-}
-
-var takenPhotoPath = "C:\\Users\\kalindu Rithmal\\AppData\\Local\\Packages\\67aeba77-534a-4b36-8d08-e3262aa8bdd7_st1rvm8mzrq5y\\TempState\\20220306_171919.jpg";
-
-var TakenPhotoModel = ({ itemUrl }) => (
+var TakenPhotoModel = ({ item}) => (
     <View style={{ height: "100%", justifyContent: 'center' }}>
-        <Image source={{ uri: itemUrl }} style={styles.capturedSmallImage} />
+        <Image source={{ uri: item}} style={styles.capturedSmallImage} />
     </View>
 );
 

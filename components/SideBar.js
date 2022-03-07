@@ -27,7 +27,7 @@ class SideBar extends Component {
                 <View style={styles.userDetailsView}>
                     <Image source={require('../assets/icons/account_circle_192e40.svg')} style={styles.userLoginImage} />
                     <Text style={styles.userNameText}>{pageData.name_of_user}</Text>
-                    <TouchableOpacity >
+                    <TouchableOpacity onPress={() => { this.props.onLogOutPress() }} >
                         <Text style={styles.logOutButtonText}>Log Out</Text>
                     </TouchableOpacity>
                 </View>

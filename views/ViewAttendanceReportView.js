@@ -37,13 +37,15 @@ var AttendanceRecordListItem = ({ item }) => (
 class ViewAttendanceReportView extends Component {
 
     state = {
-        pageData: [{
-            "id": "E4",
-            "name": "Thisula Madiwila",
-            "department": "CS",
-            "vaccine": "AstraZeneca",
-            "side_image": require('../assets/images/masked_face_side_view.jpg')
-        }]
+        pageData: [
+            //{
+            //    "id": "E4",
+            //    "name": "Thisula Madiwila",
+            //    "department": "CS",
+            //    "vaccine": "AstraZeneca",
+            //    "side_image": require('../assets/images/masked_face_side_view.jpg')
+            //}
+        ]
     }
 
     render() {

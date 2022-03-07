@@ -15,11 +15,6 @@ import {
 
 import { RNCamera } from 'react-native-camera';
 
-var pageData = {
-    "name_of_user": "Dewmin Madiwila",
-    "front_image": require('../assets/images/masked_face_side_view.jpg'),
-    "side_image": require('../assets/images/masked_face_side_view.jpg')
-}
 
 class DisplayCameraStatusView extends Component {
     state = { accessStatus: 0, photoId: 0, takenPhotos: [] };
@@ -38,7 +33,6 @@ class DisplayCameraStatusView extends Component {
                         <Text style={styles.CameraTitleText}>Side View</Text>
                         <View style={styles.CameraHookView}>
                             <RNCamera ref={ref => { this.camera = ref; }} style={styles.CameraHook} type={RNCamera.Constants.Type.front} />
-                            {/*<Image source={pageData.side_image} style={{ resizeMode: "contain", height: "100%", width: "100%" }} />*/}
                         </View>
                         <View style={styles.CameraFuncButtonsView}>
                             <TouchableOpacity onPress={this.takePicture} style={styles.CameraFuncCaptureButton}>
@@ -53,7 +47,6 @@ class DisplayCameraStatusView extends Component {
                         <Text style={styles.CameraTitleText}>Front View</Text>
                         <View style={styles.CameraHookView}>
                             {/*<RNCamera style={styles.CameraHook} type={RNCamera.Constants.Type.front} />*/}
-                            {/*<Image source={pageData.front_image} style={{ resizeMode: "contain", height: "100%", width: "100%" }} />*/}
                         </View>
                         <View style={styles.CameraFuncButtonsView}>
                             <TouchableOpacity style={styles.CameraFuncCaptureButton}>
@@ -120,26 +113,6 @@ class DisplayCameraStatusView extends Component {
         }
     }
 
-    postDetails = () => {
-
-        var collectedData = `{
-          "id": "${this.state.EmployeeId}",
-          "name": "${this.state.EmployeeName}",
-          "department": "${this.state.DepartmentName}",
-          "vaccine": "${this.state.VaccinationName}"
-        }`;
-
-        const request = new XMLHttpRequest();
-
-        request.open("POST", "http://localhost:5118/User");
-        request.setRequestHeader('Content-Type', 'application/json');
-        request.onload = () => {
-
-        console.log(JSON.parse(request.response));
-        }
-        request.send(collectedData);
-
-    }
 }
 
 const styles = StyleSheet.create({

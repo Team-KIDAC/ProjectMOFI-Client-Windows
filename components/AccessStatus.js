@@ -4,7 +4,6 @@ import {
     Text,
     Image,
     View,
-    TouchableOpacity,
 } from 'react-native';
 import { Def } from '../node_modules/ast-types/lib/types';
 

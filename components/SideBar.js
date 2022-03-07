@@ -6,19 +6,6 @@ import {
     View,
     TouchableOpacity,
 } from 'react-native';
-import { Def } from '../node_modules/ast-types/lib/types';
-import MainPageView from '../views/MainPageView';
-
-var pageData = {
-    "name_of_user": "Dewmin Madiwila",
-    "side_image": require('../assets/images/masked_face_side_view.jpg'),
-    "image0": require('../assets/images/masked_face_side_view.jpg'),
-    "image1": require('../assets/images/masked_face_side_view.jpg'),
-    "image2": require('../assets/images/masked_face_side_view.jpg'),
-    "image3": require('../assets/images/masked_face_side_view.jpg'),
-    "image4": require('../assets/images/masked_face_side_view.jpg'),
-    "image5": require('../assets/images/masked_face_side_view.jpg')
-}
 
 class SideBar extends Component {
     render() {
@@ -26,7 +13,7 @@ class SideBar extends Component {
             <View>
                 <View style={styles.userDetailsView}>
                     <Image source={require('../assets/icons/account_circle_192e40.svg')} style={styles.userLoginImage} />
-                    <Text style={styles.userNameText}>{pageData.name_of_user}</Text>
+                    <Text style={styles.userNameText}>Kalindu Abayakoon</Text>
                     <TouchableOpacity onPress={() => { this.props.onLogOutPress() }} >
                         <Text style={styles.logOutButtonText}>Log Out</Text>
                     </TouchableOpacity>

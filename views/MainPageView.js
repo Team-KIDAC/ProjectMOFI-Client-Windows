@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import type { Node } from 'react';
 
 import {
     Button,
@@ -19,22 +18,11 @@ import {
 
 import SideBar from '../components/SideBar';
 import LoginPageView from './LoginPageView';
+import LoggedWelcomePageView from './LoggedWelcomePageView';
 import DisplayCameraStatusView from './DisplayCameraStatusView';
 import AddNewEmployeeView from './AddNewEmployeeView';
 import ViewEmployeeDataView from './ViewEmployeeDataView';
 import ViewAttendanceReportView from './ViewAttendanceReportView';
-//import NewSideBar from '../components/NewSideBar';
-
-var pageData = {
-    "name_of_user": "Dewmin Madiwila",
-    "side_image": require('../assets/images/masked_face_side_view.jpg'),
-    "image0": require('../assets/images/masked_face_side_view.jpg'),
-    "image1": require('../assets/images/masked_face_side_view.jpg'),
-    "image2": require('../assets/images/masked_face_side_view.jpg'),
-    "image3": require('../assets/images/masked_face_side_view.jpg'),
-    "image4": require('../assets/images/masked_face_side_view.jpg'),
-    "image5": require('../assets/images/masked_face_side_view.jpg')
-}
 
 class MainPageView extends Component {
 
@@ -48,51 +36,33 @@ class MainPageView extends Component {
             <View style={styles.mainWindowView}>
                 {
                     (this.state.IsSideBarActive) ?
-                        <View style={styles.sideBarWindow}>
-                            <SideBar setSelectedComp={(compNum) => { this.setState({ selectedComp: compNum }) }} />
-                            <View style={styles.bottomLogoView}>
-                                <Image source={require('../assets/images/ProjectMOFI.svg')} style={styles.bottomLogoImage} />
+                        (
+                            <View style={styles.sideBarWindow}>
+                                <SideBar setSelectedComp={(compNum) => { this.setState({ selectedComp: compNum }) }} onLogOutPress={() => { this.setState({ selectedComp: 0, IsSideBarActive: false }) }} />
+                                <View style={styles.bottomLogoView}>
+                                    <Image source={require('../assets/images/ProjectMOFI.svg')} style={styles.bottomLogoImage} />
+                                </View>
                             </View>
-                        </View>
-
+                        )
                         : null
                 }
                 <View style={(this.state.IsSideBarActive) ? styles.contentSectionView : styles.contentSectionViewWithoutSideBar}>
                     {
-                        (this.state.selectedComp == 0) ? <LoginPageView />
-                        : (this.state.selectedComp == 2) ? <DisplayCameraStatusView />
-                            : (this.state.selectedComp == 3) ? <AddNewEmployeeView />
-                                : (this.state.selectedComp == 4) ? <ViewEmployeeDataView />
-                                    : (this.state.selectedComp == 5) ? <ViewAttendanceReportView />
-                                        : null
+                        (this.state.selectedComp == 0) ? <LoginPageView setSelectedComp={(compNum, sideBarStatus) => { this.setState({ selectedComp: compNum, IsSideBarActive: sideBarStatus }) }} />
+                            : (this.state.selectedComp == 1) ? <LoggedWelcomePageView />
+                                : (this.state.selectedComp == 2) ? <DisplayCameraStatusView />
+                                    : (this.state.selectedComp == 3) ? <AddNewEmployeeView />
+                                        : (this.state.selectedComp == 4) ? <ViewEmployeeDataView />
+                                            : (this.state.selectedComp == 5) ? <ViewAttendanceReportView />
+                                                : null
                     }
                 </View>
             </View>
         );
     }
 
-    setSelectedComp(chosenNum) {
-        this.setState({ selectedComp: chosenNum });
-    }
 }
 
-
-//var myState = 0;
-
-
-//function renderContent() {
-//    if (myState == 0) {
-//        return (<DisplayCameraStatusView />);
-//    }
-//    else if (myState == 1) {
-//        return (<AddNewEmployeeView />);
-//    }
-//}
-
-//function changeState(num) {
-//    myState = num;
-//    MainPageView();
-//}
 
 const styles = StyleSheet.create({
     mainWindowView: {

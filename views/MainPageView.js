@@ -1,19 +1,9 @@
 import React, { Component } from 'react';
 
 import {
-    Button,
-    SafeAreaView,
-    ScrollView,
-    StatusBar,
     StyleSheet,
-    Text,
-    useColorScheme,
     Image,
     View,
-    Touchable,
-    TouchableOpacity,
-    TouchableHighlight,
-    TextInput,
 } from 'react-native';
 
 import SideBar from '../components/SideBar';

@@ -12,9 +12,9 @@ import {
 
 import { RNCamera } from 'react-native-camera';
 
-var TakenPhotoModel = ({ item}) => (
+var TakenPhotoModel = ({ item }) => (
     <View style={{ height: "100%", justifyContent: 'center' }}>
-        <Image source={{ uri: item}} style={styles.capturedSmallImage} />
+        <Image source={{ uri: item }} style={styles.capturedSmallImage} />
     </View>
 );
 
@@ -73,7 +73,7 @@ class AddNewEmployeeView extends Component {
                                 <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.captureButton}>
                                     <Text style={styles.captureClearButtonText} >Capture</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity onPress={() => { this.setState({ ImgArray: [], NumberOfTakenPhotos: 0 }) }} style={styles.clearButton}>
+                                <TouchableOpacity onPress={() => { this.setState({ ImgArray: [], NumberOfTakenPhotos: 0 }); alert("Hello"); }} style={styles.clearButton}>
                                     <Text style={styles.captureClearButtonText} >Clear</Text>
                                 </TouchableOpacity>
                             </View>
@@ -124,24 +124,28 @@ class AddNewEmployeeView extends Component {
 
     postDetails = () => {
 
-        var collectedData = `{
-          "id": "${this.state.EmployeeId}",
-          "name": "${this.state.EmployeeName}",
-          "department": "${this.state.DepartmentName}",
-          "vaccine": "${this.state.VaccinationName}"
-        }`;
+        if (this.state.EmployeeId == "" || this.state.EmployeeName == "" || this.state.DepartmentName == "" || this.state.VaccinationName == "") {
+            alert("Any of the fields cannot be empty!");
+        } else {
+            var collectedData = `{
+              "id": "${this.state.EmployeeId}",
+              "name": "${this.state.EmployeeName}",
+              "department": "${this.state.DepartmentName}",
+              "vaccine": "${this.state.VaccinationName}"
+            }`;
 
-        const request = new XMLHttpRequest();
-        request.open("POST", "http://localhost:5118/User");
-        request.setRequestHeader('Content-Type', 'application/json');
-        request.onload = () => {
-            //if (request.status == 201) {
-            console.log(JSON.parse(request.response));
-            //} else {
-            //console.log(`error ${request.status}`);
-            //}
+            const request = new XMLHttpRequest();
+            request.open("POST", "http://localhost:5118/User");
+            request.setRequestHeader('Content-Type', 'application/json');
+            request.onload = () => {
+                if (request.status == 201) {
+                    console.log(JSON.parse(request.response));
+                } else {
+                    console.log(`error: ${request.status}`);
+                }
+            }
+            request.send(collectedData);
         }
-        request.send(collectedData);
 
     }
 }

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import type { Node } from 'react';
 
-import SideBar from '../components/SideBar';
 import AccessStatus from '../components/AccessStatus';
 
 import {
@@ -17,7 +15,11 @@ import { RNCamera } from 'react-native-camera';
 
 
 class DisplayCameraStatusView extends Component {
-    state = { accessStatus: 0, photoId: 0, takenPhotos: [] };
+    state = {
+        accessStatus: 0,
+        photoId: 0,
+        takenPhotos: []
+    };
 
     render() {
         return (
@@ -46,7 +48,7 @@ class DisplayCameraStatusView extends Component {
                     <View style={styles.DevidedCameraView}>
                         <Text style={styles.CameraTitleText}>Front View</Text>
                         <View style={styles.CameraHookView}>
-                            {/*<RNCamera style={styles.CameraHook} type={RNCamera.Constants.Type.front} />*/}
+                            <RNCamera style={styles.CameraHook} type={RNCamera.Constants.Type.front} />
                         </View>
                         <View style={styles.CameraFuncButtonsView}>
                             <TouchableOpacity style={styles.CameraFuncCaptureButton}>
@@ -81,7 +83,7 @@ class DisplayCameraStatusView extends Component {
                             </Text>
                             <View style={styles.DevidedProcessingSectionTitleUnderlineView}></View>
                         </View>
-                        { (this.state.accessStatus == 1) ? <AccessStatus status={1} /> : (this.state.accessStatus == 2) ? <AccessStatus status={2} /> : null }
+                        {(this.state.accessStatus == 1) ? <AccessStatus status={1} /> : (this.state.accessStatus == 2) ? <AccessStatus status={2} /> : null}
                     </View>
                 </View>
             </View>
@@ -89,27 +91,14 @@ class DisplayCameraStatusView extends Component {
     }
 
     takePicture = async () => {
-        if (this.camera) {
-            //let photo = await this.camera.takePictureAsync();
-            //let resizedPhoto = await ImageManipulator.manipulate(
-            //    photo.uri,
-            //    [{ resize: { width: 108, height: 192 } }],
-            //    { compress: 0, format: "jpg", base64: false }
-            //);
-            //FileSystem.moveAsync({
-            //    from: resizedPhoto.uri,
-            //    to: `${FileSystem.documentDirectory}photos/Photo_${this.state.photoId}.jpg`
-            //});
-            //console.log(`${FileSystem.documentDirectory}photos/Photo_${this.state.photoId}.jpg`);
-            //this.setState({ photoId: this.state.photoId + 1 });
+        try {
+            if (this.camera) {
+                const options = { quality: 1, base64: true };
+                const data = await this.camera.takePictureAsync(options);
+                console.log(data.uri);
+            }
+        } catch (ex) {
 
-            const options = { quality: 1, base64: true };
-            const data = await this.camera.takePictureAsync(options);
-            console.log(data.uri);
-            this.state.takenPhotos.push(data.uri);
-
-            //moveFile(data.uri, 'destination/unicorn.png');
-            //console.log('The file has been moved');
         }
     }
 

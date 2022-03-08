@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 
-import SideBar from '../components/SideBar';
-
 import {
     View,
     Text,
     Image,
     StyleSheet,
-    TouchableOpacity,
 } from 'react-native';
 
 var pageData = {

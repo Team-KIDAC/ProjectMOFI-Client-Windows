@@ -16,7 +16,7 @@ type MyState = {
 
 };
 
-class AccessDeniedView extends React.Component<MyProps, MyState> {
+export default class AccessDeniedView extends React.Component<MyProps, MyState> {
     state: MyState = {
 
     };
@@ -55,5 +55,3 @@ class AccessDeniedView extends React.Component<MyProps, MyState> {
         );
     }
 }
-
-export default AccessDeniedView;

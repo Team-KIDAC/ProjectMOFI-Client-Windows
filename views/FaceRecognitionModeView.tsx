@@ -17,7 +17,7 @@ type MyState = {
     selectedRecognitionComp: number,
 };
 
-class FaceRecognitionModeView extends React.Component<MyProps, MyState> {
+export default class FaceRecognitionModeView extends React.Component<MyProps, MyState> {
     state: MyState = {
         selectedRecognitionComp: 0,
     };
@@ -44,7 +44,7 @@ class FaceRecognitionModeView extends React.Component<MyProps, MyState> {
                     }
                 </View>
                 <View style={{ position: "absolute", zIndex: 2, right: 0, bottom: 0 }}>
-                    <TouchableOpacity onPress={() => { (this.state.selectedRecognitionComp == 4) ? this.setState({ selectedRecognitionComp: 0 }) : this.setState({ selectedRecognitionComp: this.state.selectedRecognitionComp + 1 }) }} style={{ width: 250, alignItems: 'center', height: 50, borderColor: "#011e36", borderTopWidth: 10, borderTopLeftRadius: 30 }}>
+                    <TouchableOpacity onPress={() => { (this.state.selectedRecognitionComp == 3) ? this.setState({ selectedRecognitionComp: 0 }) : this.setState({ selectedRecognitionComp: this.state.selectedRecognitionComp + 1 }) }} style={{ width: 250, alignItems: 'center', height: 50, borderColor: "#011e36", borderTopWidth: 10, borderTopLeftRadius: 30 }}>
                         <View style={{ display: 'flex', flexDirection: 'row' }}>
                             <Text style={{ fontSize: 20, color: "#011e36", paddingBottom: 10, marginLeft: 5 }}>
                                 Next
@@ -56,5 +56,3 @@ class FaceRecognitionModeView extends React.Component<MyProps, MyState> {
         );
     }
 }
-
-export default FaceRecognitionModeView;

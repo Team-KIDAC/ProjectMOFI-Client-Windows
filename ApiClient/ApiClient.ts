@@ -8,11 +8,102 @@
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 
+export interface IAttendanceRecordClient {
+
+    getAttendanceRecords(): Promise<string | null>;
+
+    postAttendanceRecord(newAttendanceRecord: AttendanceRecord): Promise<FileResponse | null>;
+}
+
+export class AttendanceRecordClient implements IAttendanceRecordClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : window as any;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://mofiapi.azurewebsites.net";
+    }
+
+    getAttendanceRecords(): Promise<string | null> {
+        let url_ = this.baseUrl + "/AttendanceRecord";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/octet-stream"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetAttendanceRecords(_response);
+        });
+    }
+
+    protected processGetAttendanceRecords(response: Response): Promise<string | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200 || status === 206) {
+            return response.text().then((_responseText: string) => {
+                return Promise.resolve<string>(_responseText);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<string | null>(null as any);
+    }
+
+    postAttendanceRecord(newAttendanceRecord: AttendanceRecord): Promise<FileResponse | null> {
+        let url_ = this.baseUrl + "/AttendanceRecord";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(newAttendanceRecord);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/octet-stream"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processPostAttendanceRecord(_response);
+        });
+    }
+
+    protected processPostAttendanceRecord(response: Response): Promise<FileResponse | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<FileResponse | null>(null as any);
+    }
+}
+
 export interface IAttendeeClient {
 
     getAttendees(): Promise<string | null>;
 
-    postRecognizableImageTest(imageDuo: ImageDuo): Promise<string | null>;
+    postAttendee(newAttendee: Attendee): Promise<Response | null>;
+
+    getAttendeeById(id: string | null): Promise<FileResponse | null>;
+
+    getImagePathOfAttendee(id: string | null): Promise<string | null>;
+
+    postAttendeeImage(attendeeImage: AttendeeImage): Promise<string | null>;
 }
 
 export class AttendeeClient implements IAttendeeClient {
@@ -23,7 +114,6 @@ export class AttendeeClient implements IAttendeeClient {
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
         this.http = http ? http : window as any;
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://mofiapi.azurewebsites.net";
-        //this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://localhost:7055";
     }
 
     getAttendees(): Promise<string | null> {
@@ -49,15 +139,6 @@ export class AttendeeClient implements IAttendeeClient {
             return response.text().then((_responseText: string) => {
                 return Promise.resolve<string>(_responseText);
             });
-            //const myRes = JSON.parse(Promise.resolve<string>(response.text()));
-            //const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            //const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            //const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            //var blobedResp: FileResponse | null;
-            //response.blob().then(blob => {
-            //    blobedResp = { fileName: fileName, data: blob, status: status, headers: _headers };
-            //});
-            //return Promise.resolve<FileResponse | null>(blobedResp);
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -66,8 +147,161 @@ export class AttendeeClient implements IAttendeeClient {
         return Promise.resolve<string | null>(null as any);
     }
 
-    postRecognizableImageTest(imageDuo: ImageDuo): Promise<string | null> {
-        let url_ = this.baseUrl + "/Attendee/RecognizeImageTest";
+    postAttendee(newAttendee: Attendee): Promise<Response | null> {
+        let url_ = this.baseUrl + "/Attendee";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(newAttendee);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/octet-stream"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processPostAttendee(_response);
+        });
+    }
+
+    protected processPostAttendee(response: Response): Promise<Response | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 201) {
+            return Promise.resolve<Response>(response);
+        } else if (status !== 201) {
+            return response.text().then((_responseText) => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Response | null>(null as any);
+    }
+
+    getAttendeeById(id: string | null): Promise<FileResponse | null> {
+        let url_ = this.baseUrl + "/Attendee/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/octet-stream"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetAttendeeById(_response);
+        });
+    }
+
+    protected processGetAttendeeById(response: Response): Promise<FileResponse | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<FileResponse | null>(null as any);
+    }
+
+    getImagePathOfAttendee(id: string | null): Promise<string | null> {
+        let url_ = this.baseUrl + "/Attendee/{id}/ImagePath";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "application/octet-stream"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetImagePathOfAttendee(_response);
+        });
+    }
+
+    protected processGetImagePathOfAttendee(response: Response): Promise<string | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200 || status === 206) {
+            return response.text().then((_responseText: string) => {
+                return Promise.resolve<string>(_responseText);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<string | null>(null as any);
+    }
+
+    postAttendeeImage(attendeeImage: AttendeeImage): Promise<string | null> {
+        let url_ = this.baseUrl + "/Attendee/UploadAttendeeImage";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(attendeeImage);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/octet-stream"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processPostAttendeeImage(_response);
+        });
+    }
+
+    protected processPostAttendeeImage(response: Response): Promise<string | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 201 || status === 206) {
+            return response.text().then((_responseText: string) => {
+                return Promise.resolve<string>(_responseText);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<string | null>(null as any);
+    }
+}
+
+export interface IRecognitionClient {
+
+    postRecognizePerson(imageDuo: ImageDuo): Promise<Response | null>;
+}
+
+export class RecognitionClient implements IRecognitionClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : window as any;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://mofiapi.azurewebsites.net";
+    }
+
+    postRecognizePerson(imageDuo: ImageDuo): Promise<Response | null> {
+        let url_ = this.baseUrl + "/Recognition/RecognizePerson";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(imageDuo);
@@ -82,63 +316,49 @@ export class AttendeeClient implements IAttendeeClient {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processPostRecognizableImageTest(_response);
+            return this.processPostRecognizePerson(_response);
         });
     }
 
-    protected processPostRecognizableImageTest(response: Response): Promise<string | null> {
+    protected processPostRecognizePerson(response: Response): Promise<Response | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200 || status === 206) {
-            return response.text().then((_responseText: string) => {
-                return Promise.resolve<string>(_responseText);
-            });
-            //const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            //const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            //const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            //return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        if(status === 200 || status === 206) {
+            return Promise.resolve<Response>(response);
+        } else if (status === 404) {
+            return Promise.resolve<Response>(response);
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<string | null>(null as any);
+        return Promise.resolve<Response | null>(null as any);
     }
 }
 
-export class ImageDuo implements IImageDuo {
-    base64String!: string;
-
-    constructor(data?: IImageDuo) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.base64String = _data["base64String"];
-        }
-    }
-
-    static fromJS(data: any): ImageDuo {
-        data = typeof data === 'object' ? data : {};
-        let result = new ImageDuo();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["base64String"] = this.base64String;
-        return data;
-    }
+export interface AttendanceRecord {
+    attendanceRecordId: string;
+    attendeeId: string;
+    attendeeName: string;
+    imagePath: string;
+    attendanceDate: string;
+    attendanceTime: string;
 }
 
-export interface IImageDuo {
+export interface AttendeeImage {
+    attendeeId: string;
+    base64String: string;
+}
+
+export interface Attendee {
+    id: string;
+    name: string;
+    department: string;
+    vaccine: string;
+    imagePath: string;
+}
+
+export interface ImageDuo {
     base64String: string;
 }
 

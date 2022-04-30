@@ -3,8 +3,6 @@ import {
     View,
     Text,
     Image,
-    TouchableOpacity,
-    TextInput,
 } from 'react-native';
 import DisplayCameraStatus from '../../ViewModels/DisplayCameraStatusViewModel';
 
@@ -16,29 +14,36 @@ type MyState = {
     isAccessGranted: boolean
 };
 
-class AccessProcessingView extends React.Component<MyProps, MyState> {
+export default class AccessProcessingView extends React.Component<MyProps, MyState> {
     state: MyState = {
         isAccessGranted: true
     };
 
-    isGranted: boolean = true;
+    public static isGranted: number | null = 0;
+    myDate: Date = new Date();
+    dateNow: string = "";
+    timeNow: string = "";
     sentImagesToApi = async () => {
         try {
+            console.log(AccessProcessingView.isGranted);
             await DisplayCameraStatus.sendImagesToApi();
-            await new Promise(resolve => setTimeout(resolve, 3000));
+            //new Promise(resolve => setTimeout(resolve, 3000));
 
-            if (this.isGranted) {
+            if (AccessProcessingView.isGranted == 1) {
                 await this.props.setSelectedRecognitionComp(3);
             }
-            else {
-                await this.setState({ isAccessGranted: false })
+            else if (AccessProcessingView.isGranted == 2) {
+                this.setState({ isAccessGranted: false });
+                await new Promise(resolve => setTimeout(resolve, 3000));
+                await this.props.setSelectedRecognitionComp(0);
             }
         }
         catch (ex) {
+            this.setState({ isAccessGranted: false });
             await new Promise(resolve => setTimeout(resolve, 3000));
-            await this.props.setSelectedRecognitionComp(4);
+            await this.props.setSelectedRecognitionComp(0);
         }
-        
+
     }
 
     render() {
@@ -87,5 +92,3 @@ class AccessProcessingView extends React.Component<MyProps, MyState> {
         );
     }
 }
-
-export default AccessProcessingView;

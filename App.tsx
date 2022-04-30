@@ -23,7 +23,7 @@ type MyState = {
     IsRecognitionModeActive: boolean
 };
 
-class App extends React.Component<MyProps, MyState> {
+export default class App extends React.Component<MyProps, MyState> {
     state: MyState = {
         selectedComp: 0,
         IsSideBarActive: false,
@@ -139,5 +139,3 @@ const styles = StyleSheet.create({
         height: "100%"
     },
 });
-
-export default App;

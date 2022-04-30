@@ -7,7 +7,7 @@ import {
     FlatList,
 } from 'react-native';
 
-import { IAttendeeClient, AttendeeClient, FileResponse} from '../ApiClient/ApiClient';
+import { IAttendanceRecordClient, AttendanceRecordClient } from '../ApiClient/ApiClient';
 
 type MyProps = {
 
@@ -19,38 +19,30 @@ type MyState = {
 var AttendanceRecordListItem = ({ item }) => (
     <View style={styles.AttendanceRecordListItemView}>
         <View style={styles.AttendanceRecordListItemIdView}>
-            <Text style={styles.AttendanceRecordListItemText}>{item.id}</Text>
+            <Text style={styles.AttendanceRecordListItemText}>{item.attendeeId}</Text>
         </View>
         <View style={styles.AttendanceRecordListItemNameView}>
-            <Text style={styles.AttendanceRecordListItemText}>{item.name}</Text>
+            <Text style={styles.AttendanceRecordListItemText}>{item.attendeeName}</Text>
         </View>
-        <View style={styles.AttendanceRecordListItemDepartmentView}>
-            <Text style={styles.AttendanceRecordListItemText}>{item.department}</Text>
+        <View style={styles.AttendanceRecordListItemDateTimeView}>
+            <Text style={styles.AttendanceRecordListItemText}>{item.attendanceDate}</Text>
         </View>
-        <View style={styles.AttendanceRecordListItemVaccineView}>
-            <Text style={styles.AttendanceRecordListItemText}>{item.vaccine}</Text>
+        <View style={styles.AttendanceRecordListItemDateTimeView}>
+            <Text style={styles.AttendanceRecordListItemText}>{item.attendanceTime}</Text>
         </View>
-        <View style={styles.AttendanceRecordListItemImageView}>
-            <Image source={require('../assets/images/masked_face_side_view.jpg')} style={styles.AttendanceRecordListItemImageImage} />
+        <View style={styles.AttendanceRecordListItemPhotoView}>
+            <Image source={{ uri: item.imagePath }} style={styles.AttendanceRecordListItemPhotoImage} />
         </View>
     </View>
 );
 
-class ViewAttendanceReportView extends React.Component<MyProps, MyState> {
+export default class ViewAttendanceReportView extends React.Component<MyProps, MyState> {
     state: MyState = {
-        pageData: [
-            //{
-            //    "id": "E4",
-            //    "name": "Thisula Madiwila",
-            //    "department": "CS",
-            //    "vaccine": "AstraZeneca",
-            //    "side_image": require('../assets/images/masked_face_side_view.jpg')
-            //}
-        ]
+        pageData: []
     }
 
     render() {
-        this.getDetails1();
+        this.getDetails();
 
         return (
             <View>
@@ -65,12 +57,12 @@ class ViewAttendanceReportView extends React.Component<MyProps, MyState> {
                         <View style={styles.AttendanceRecordListItemTitlesView}>
                             <Text style={styles.AttendanceRecordListItemTitleIdPhotoText}>Emp ID</Text>
                             <Text style={styles.AttendanceRecordListItemTitleNameText}>Emp Name</Text>
-                            <Text style={styles.AttendanceRecordListItemDepVacText}>Dep Name</Text>
-                            <Text style={styles.AttendanceRecordListItemDepVacText}>Vaccine</Text>
+                            <Text style={styles.AttendanceRecordListItemTitleDateTimeText}>Date</Text>
+                            <Text style={styles.AttendanceRecordListItemTitleDateTimeText}>Arrived Time</Text>
                             <Text style={styles.AttendanceRecordListItemTitleIdPhotoText}>Photo</Text>
                         </View>
                         <View style={styles.AttendanceRecordListItemWrapperView}>
-                            <FlatList data={this.state.pageData} keyExtractor={(item) => item.id} renderItem={AttendanceRecordListItem} />
+                            <FlatList data={this.state.pageData} inverted keyExtractor={(item) => item.attendanceRecordId} renderItem={AttendanceRecordListItem} />
                         </View>
                     </View>
                 </View>
@@ -78,28 +70,10 @@ class ViewAttendanceReportView extends React.Component<MyProps, MyState> {
         );
     }
 
-    //getDetails = async () => {
-    //    const request = new XMLHttpRequest();
 
-    //    request.open("GET", "http://localhost:5118/User");
-    //    request.send();
-    //    request.onload = () => {
-
-    //        if (request.status == 200) {
-    //            this.setState({ pageData: JSON.parse(request.response) });
-    //        } else {
-    //            console.log(`error ${request.status}`);
-    //        }
-    //    }
-    //}
-
-    //getDetails1 = async () => {
-    //    let apiClient: IAttendeeClient = new AttendeeClient();
-    //    apiClient.getAttendees().then((response: any) => this.setState({ pageData: JSON.parse(response) }));
-    //}
-    getDetails1 = async () => {
-        let apiClient: IAttendeeClient = new AttendeeClient();
-        apiClient.getAttendees().then((response: string | null) => this.setState({ pageData: JSON.parse(String(response)) }));
+    getDetails = async () => {
+        let apiClient: IAttendanceRecordClient = new AttendanceRecordClient();
+        apiClient.getAttendanceRecords().then((response: string | null) => this.setState({ pageData: JSON.parse(String(response)) }));
     }
 }
 
@@ -184,6 +158,22 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "10%"
     },
+    AttendanceRecordListItemDateTimeView: {
+        height: "100%",
+        width: "20%",
+        justifyContent: 'center'
+    },
+    AttendanceRecordListItemPhotoView: {
+        height: "100%",
+        width: "15%",
+        padding: 5,
+        justifyContent: 'center'
+    },
+    AttendanceRecordListItemPhotoImage: {
+        resizeMode: "contain",
+        height: "100%",
+        width: "100%"
+    },
     AttendanceRecordListItemTitleIdPhotoText: {
         fontSize: 20,
         color: "white",
@@ -193,6 +183,11 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: "white",
         width: "30%"
+    },
+    AttendanceRecordListItemTitleDateTimeText: {
+        fontSize: 20,
+        color: "white",
+        width: "20%"
     },
     AttendanceRecordListItemDepVacText: {
         fontSize: 20,
@@ -204,6 +199,3 @@ const styles = StyleSheet.create({
         height: "90%"
     }
 });
-
-
-export default ViewAttendanceReportView;

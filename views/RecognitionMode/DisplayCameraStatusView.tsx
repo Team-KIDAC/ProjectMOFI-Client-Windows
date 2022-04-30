@@ -19,7 +19,7 @@ type MyState = {
     takenPhotos: any
 };
 
-class DisplayCameraStatusView extends React.Component<MyProps, MyState> {
+export default class DisplayCameraStatusView extends React.Component<MyProps, MyState> {
     state: MyState = {
         accessStatus: 0,
         photoId: 0,
@@ -40,13 +40,15 @@ class DisplayCameraStatusView extends React.Component<MyProps, MyState> {
                     <View style={styles.DevidedCameraView}>
                         <Text style={styles.CameraTitleText}>Front View</Text>
                         <View style={styles.CameraHookView}>
-                            <RNCamera ref={ref => { DisplayCameraStatus.frontCamera = ref; }} style={styles.CameraHook} type={RNCamera.Constants.Type.front} />
+                            {/*<RNCamera ref={ref => { DisplayCameraStatus.frontCamera = ref; }} style={styles.CameraHook} type={RNCamera.Constants.Type.front} />*/}
+                            <RNCamera ref={ref => { DisplayCameraStatus.frontCamera = ref; }} style={styles.CameraHook} type={RNCamera.Constants.Type.back} />
                         </View>
                     </View>
                     <View style={styles.DevidedCameraView}>
                         <Text style={styles.CameraTitleText}>Side View</Text>
                         <View style={styles.CameraHookView}>
-                            <RNCamera ref={ref => { DisplayCameraStatus.sideCamera = ref; }} style={styles.CameraHook} type={RNCamera.Constants.Type.back} />
+                            {/*<RNCamera ref={ref => { DisplayCameraStatus.sideCamera = ref; }} style={styles.CameraHook} type={RNCamera.Constants.Type.back} />*/}
+                            <RNCamera ref={ref => { DisplayCameraStatus.sideCamera = ref; }} style={styles.CameraHook} type={RNCamera.Constants.Type.front} />
                         </View>
                     </View>
                 </View>
@@ -64,31 +66,9 @@ class DisplayCameraStatusView extends React.Component<MyProps, MyState> {
 
     public onCompareButtonPress = async () => {
         await DisplayCameraStatus.takePicturesFromBothCameras();
-        await new Promise(resolve => setTimeout(resolve, 3000)); // 3 sec
+        await new Promise(resolve => setTimeout(resolve, 3000));
         await this.props.setSelectedRecognitionComp(2);
     }
-
-    //public static takePicture = async () => {
-    //    try {
-    //        if (this.frontcamera) {
-    //            const frontcameradata = await this.frontcamera?.takepictureasync({
-    //                base64: true,
-    //                quality: 1
-    //            });
-    //            console.log(frontcameradata?.uri);
-    //            displaycamerastatus.frontcamerauri = frontcameradata?.uri;
-    //            console.log(displaycamerastatus.frontcamerauri);
-
-    //            let apiclient: iclient = new client();
-    //            apiclient.recognizeimagetest(
-    //                new imageduo({ base64string: string(frontcameradata?.base64) })
-    //            ).then((response: any) => console.log(response));
-
-    //        }
-    //    } catch (ex) {
-    //        console.error(ex);
-    //    }
-    //}
 }
 
 const styles = StyleSheet.create({
@@ -223,5 +203,3 @@ const styles = StyleSheet.create({
         height: 27
     }
 });
-
-export default DisplayCameraStatusView;

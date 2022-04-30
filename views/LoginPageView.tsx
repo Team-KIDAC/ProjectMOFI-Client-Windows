@@ -15,7 +15,7 @@ type MyState = {
 
 };
 
-class LoginPageView extends React.Component<MyProps, MyState> {
+export default class LoginPageView extends React.Component<MyProps, MyState> {
 
     render() {
         return (
@@ -37,7 +37,6 @@ class LoginPageView extends React.Component<MyProps, MyState> {
                             <Text style={styles.funcTopicText}>Password*</Text>
                             <TextInput style={styles.funcInputTextInput} />
 
-                            {/*<Button content='test button' onTapped={() => {  }} />*/}
                             <TouchableOpacity onPress={() => { this.props.setSelectedComp(1, true) }} style={styles.loginButton}>
                                 <Text style={styles.loginButtonText}>Login</Text>
                             </TouchableOpacity>
@@ -117,5 +116,3 @@ const styles = StyleSheet.create({
         color: "white"
     }
 });
-
-export default LoginPageView;

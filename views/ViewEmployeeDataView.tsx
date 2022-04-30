@@ -4,46 +4,51 @@ import {
     Text,
     Image,
     StyleSheet,
+    FlatList,
 } from 'react-native';
+import { AttendeeClient, IAttendeeClient } from '../ApiClient/ApiClient';
 
 type MyProps = {
 
 };
 type MyState = {
-
+    pageData: any
 };
 
-var pageData = {
-    "name_of_user": "Dewmin Madiwila",
-    "id": "E3",
-    "name": "Dewmin Madiwila",
-    "side_image": require('../assets/images/masked_face_side_view.jpg'),
-    "date_time": [
-        {
-            "date": "04/02/2022",
-            "arrieved_time": "07 : 04 : 43"
-        },
-        {
-            "date": "05/02/2022",
-            "arrieved_time": "07 : 15 : 55"
-        },
-        {
-            "date": "06/02/2022",
-            "arrieved_time": "07 : 16 : 02"
-        },
-        {
-            "date": "07/02/2022",
-            "arrieved_time": "07 : 56 : 12"
-        },
-        {
-            "date": "08/02/2022",
-            "arrieved_time": "08 : 13 : 22"
-        }
-    ]
-}
+var AttendanceRecordListItem = ({ item }) => (
+    <View style={styles.AttendanceRecordListItemView}>
+        <View style={styles.AttendanceRecordListItemIdView}>
+            <Text style={styles.AttendanceRecordListItemText}>{item.id}</Text>
+        </View>
+        <View style={styles.AttendanceRecordListItemNameView}>
+            <Text style={styles.AttendanceRecordListItemText}>{item.name}</Text>
+        </View>
+        <View style={styles.AttendanceRecordListItemDepartmentView}>
+            <Text style={styles.AttendanceRecordListItemText}>{item.department}</Text>
+        </View>
+        <View style={styles.AttendanceRecordListItemVaccineView}>
+            <Text style={styles.AttendanceRecordListItemText}>{item.vaccine}</Text>
+        </View>
+        <View style={styles.AttendanceRecordListItemImageView}>
+            <Image source={{ uri: item.imagePath }} style={styles.AttendanceRecordListItemImageImage} />
+        </View>
+    </View>
+);
 
-class ViewEmployeeDataView extends React.Component<MyProps, MyState> {
+export default class ViewEmployeeDataView extends React.Component<MyProps, MyState> {
+    state: MyState = {
+        pageData: []
+    }
+
+    loadAttendees = async () => {
+        let apiClient: IAttendeeClient = new AttendeeClient();
+        apiClient.getAttendees().then((_response: string | null) => {
+            this.setState({ pageData: JSON.parse(String(_response)) });
+        })
+    }
+
     render() {
+        this.loadAttendees();
         return (
             <View>
                 <View style={styles.PageWrapperView}>
@@ -57,95 +62,12 @@ class ViewEmployeeDataView extends React.Component<MyProps, MyState> {
                         <View style={styles.AttendanceRecordListItemTitlesView}>
                             <Text style={styles.AttendanceRecordListItemTitleIdPhotoText}>Emp ID</Text>
                             <Text style={styles.AttendanceRecordListItemTitleNameText}>Emp Name</Text>
-                            <Text style={styles.AttendanceRecordListItemTitleDateTimeText}>Date</Text>
-                            <Text style={styles.AttendanceRecordListItemTitleDateTimeText}>Arrived Time</Text>
+                            <Text style={styles.AttendanceRecordListItemDepVacText}>Dep Name</Text>
+                            <Text style={styles.AttendanceRecordListItemDepVacText}>Vaccine</Text>
                             <Text style={styles.AttendanceRecordListItemTitleIdPhotoText}>Photo</Text>
                         </View>
-
-                        <View style={styles.AttendanceRecordListItemView}>
-                            <View style={styles.AttendanceRecordListItemIdView}>
-                                <Text style={styles.AttendanceRecordListItemText}>{pageData.id}</Text>
-                            </View>
-                            <View style={styles.AttendanceRecordListItemNameView}>
-                                <Text style={styles.AttendanceRecordListItemText}>{pageData.name}</Text>
-                            </View>
-                            <View style={styles.AttendanceRecordListItemDateTimeView}>
-                                <Text style={styles.AttendanceRecordListItemText}>{pageData.date_time[0].date}</Text>
-                            </View>
-                            <View style={styles.AttendanceRecordListItemDateTimeView}>
-                                <Text style={styles.AttendanceRecordListItemText}>{pageData.date_time[0].arrieved_time}</Text>
-                            </View>
-                            <View style={styles.AttendanceRecordListItemPhotoView}>
-                                <Image source={pageData.side_image} style={styles.AttendanceRecordListItemPhotoImage} />
-                            </View>
-                        </View>
-                        <View style={styles.AttendanceRecordListItemView}>
-                            <View style={styles.AttendanceRecordListItemIdView}>
-                                <Text style={styles.AttendanceRecordListItemText}>{pageData.id}</Text>
-                            </View>
-                            <View style={styles.AttendanceRecordListItemNameView}>
-                                <Text style={styles.AttendanceRecordListItemText}>{pageData.name}</Text>
-                            </View>
-                            <View style={styles.AttendanceRecordListItemDateTimeView}>
-                                <Text style={styles.AttendanceRecordListItemText}>{pageData.date_time[1].date}</Text>
-                            </View>
-                            <View style={styles.AttendanceRecordListItemDateTimeView}>
-                                <Text style={styles.AttendanceRecordListItemText}>{pageData.date_time[1].arrieved_time}</Text>
-                            </View>
-                            <View style={styles.AttendanceRecordListItemPhotoView}>
-                                <Image source={pageData.side_image} style={styles.AttendanceRecordListItemPhotoImage} />
-                            </View>
-                        </View>
-                        <View style={styles.AttendanceRecordListItemView}>
-                            <View style={styles.AttendanceRecordListItemIdView}>
-                                <Text style={styles.AttendanceRecordListItemText}>{pageData.id}</Text>
-                            </View>
-                            <View style={styles.AttendanceRecordListItemNameView}>
-                                <Text style={styles.AttendanceRecordListItemText}>{pageData.name}</Text>
-                            </View>
-                            <View style={styles.AttendanceRecordListItemDateTimeView}>
-                                <Text style={styles.AttendanceRecordListItemText}>{pageData.date_time[2].date}</Text>
-                            </View>
-                            <View style={styles.AttendanceRecordListItemDateTimeView}>
-                                <Text style={styles.AttendanceRecordListItemText}>{pageData.date_time[2].arrieved_time}</Text>
-                            </View>
-                            <View style={styles.AttendanceRecordListItemPhotoView}>
-                                <Image source={pageData.side_image} style={styles.AttendanceRecordListItemPhotoImage} />
-                            </View>
-                        </View>
-                        <View style={styles.AttendanceRecordListItemView}>
-                            <View style={styles.AttendanceRecordListItemIdView}>
-                                <Text style={styles.AttendanceRecordListItemText}>{pageData.id}</Text>
-                            </View>
-                            <View style={styles.AttendanceRecordListItemNameView}>
-                                <Text style={styles.AttendanceRecordListItemText}>{pageData.name}</Text>
-                            </View>
-                            <View style={styles.AttendanceRecordListItemDateTimeView}>
-                                <Text style={styles.AttendanceRecordListItemText}>{pageData.date_time[3].date}</Text>
-                            </View>
-                            <View style={styles.AttendanceRecordListItemDateTimeView}>
-                                <Text style={styles.AttendanceRecordListItemText}>{pageData.date_time[3].arrieved_time}</Text>
-                            </View>
-                            <View style={styles.AttendanceRecordListItemPhotoView}>
-                                <Image source={pageData.side_image} style={styles.AttendanceRecordListItemPhotoImage} />
-                            </View>
-                        </View>
-                        <View style={styles.AttendanceRecordListItemView}>
-                            <View style={styles.AttendanceRecordListItemIdView}>
-                                <Text style={styles.AttendanceRecordListItemText}>{pageData.id}</Text>
-                            </View>
-                            <View style={styles.AttendanceRecordListItemNameView}>
-                                <Text style={styles.AttendanceRecordListItemText}>{pageData.name}</Text>
-                            </View>
-                            <View style={styles.AttendanceRecordListItemDateTimeView}>
-                                <Text style={styles.AttendanceRecordListItemText}>{pageData.date_time[4].date}</Text>
-                            </View>
-                            <View style={styles.AttendanceRecordListItemDateTimeView}>
-                                <Text style={styles.AttendanceRecordListItemText}>{pageData.date_time[4].arrieved_time}</Text>
-                            </View>
-                            <View style={styles.AttendanceRecordListItemPhotoView}>
-                                <Image source={pageData.side_image} style={styles.AttendanceRecordListItemPhotoImage} />
-                            </View>
+                        <View style={styles.AttendanceRecordListItemWrapperView}>
+                            <FlatList data={this.state.pageData} keyExtractor={(item) => item.id} renderItem={AttendanceRecordListItem} />
                         </View>
                     </View>
                 </View>
@@ -223,7 +145,7 @@ const styles = StyleSheet.create({
     AttendanceRecordListItemView: {
         backgroundColor: "white",
         width: "100%",
-        height: "14%",
+        height: 100,
         marginBottom: "2%",
         borderRadius: 7,
         display: 'flex',
@@ -239,9 +161,30 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: "black"
     },
+    AttendanceRecordListItemImageImage: {
+        resizeMode: "contain",
+        height: "100%",
+        width: "100%"
+    },
     AttendanceRecordListItemNameView: {
         height: "100%",
         width: "30%",
+        justifyContent: 'center'
+    },
+    AttendanceRecordListItemImageView: {
+        height: "100%",
+        width: "15%",
+        padding: 5,
+        justifyContent: 'center'
+    },
+    AttendanceRecordListItemVaccineView: {
+        height: "100%",
+        width: "20%",
+        justifyContent: 'center'
+    },
+    AttendanceRecordListItemDepartmentView: {
+        height: "100%",
+        width: "20%",
         justifyContent: 'center'
     },
     AttendanceRecordListItemDateTimeView: {
@@ -259,7 +202,14 @@ const styles = StyleSheet.create({
         resizeMode: "contain",
         height: "100%",
         width: "100%"
+    },
+    AttendanceRecordListItemDepVacText: {
+        fontSize: 20,
+        color: "white",
+        width: "20%"
+    },
+    AttendanceRecordListItemWrapperView: {
+        width: "100%",
+        height: "90%"
     }
 });
-
-export default ViewEmployeeDataView;

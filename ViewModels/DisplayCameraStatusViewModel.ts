@@ -1,7 +1,10 @@
 import { RNCamera, TakePictureResponse } from 'react-native-camera';
-import { IAttendeeClient, AttendeeClient, ImageDuo } from '../ApiClient/ApiClient';
+import { AttendanceRecordClient, IAttendanceRecordClient, IRecognitionClient, RecognitionClient } from '../ApiClient/ApiClient';
+import CurrentDateTimeGenerator, { ICurrentDateTimeGenerator } from '../Helpers/CurrentDateTimeGenerator';
+import Attendee from '../models/AttendeeModel';
+import AccessProcessingView from '../views/RecognitionMode/AccessProcessingView';
 
-class DisplayCameraStatus {
+export default class DisplayCameraStatus {
     public static frontCamera: RNCamera | null;
     public static sideCamera: RNCamera | null;
 
@@ -13,15 +16,52 @@ class DisplayCameraStatus {
         await this.takePictureFromSideCamera();
     }
 
-    public static sendImagesToApi = () => {
-        let apiClient: IAttendeeClient = new AttendeeClient();
-        apiClient.postRecognizableImageTest(
-            new ImageDuo({ base64String: String(this.frontCameraData?.base64) })
-        ).then((response: string | null) => console.log(response));
+    public static addAttendanceRecord = async () => {
+        let attendanceRecordClient: IAttendanceRecordClient = new AttendanceRecordClient();
+        await attendanceRecordClient.postAttendanceRecord({
+            attendanceRecordId: Attendee.getGeneratedAttendanceRecordId(),
+            attendeeId: Attendee.getId(),
+            attendeeName: Attendee.getName(),
+            imagePath: Attendee.getAttendeeImagePath(),
+            attendanceDate: Attendee.getAttendedDate(),
+            attendanceTime: Attendee.getAttendedTime()
+        });
+    }
 
-        //apiClient.recognizeImageTest(
-        //    new ImageDuo({ base64String: String(this.sideCameraData?.base64) })
-        //).then((response: any) => console.log(response));
+    public static addAttendeeData = async (_responseJson: any) => {
+        let currDateTime: ICurrentDateTimeGenerator = new CurrentDateTimeGenerator();
+
+        await Attendee.setId(String(_responseJson.id));
+        await Attendee.setName(String(_responseJson.name));
+        await Attendee.setDepartment(String(_responseJson.department));
+        await Attendee.setDateAsync(currDateTime.getCurrentDateString());
+        await Attendee.setTimeAsync(currDateTime.getCurrentTimeString());
+        await Attendee.setAttendeeImagePath(String(_responseJson.id));
+
+        await this.addAttendanceRecord();
+    }
+
+    public static sendImagesToApi = async () => {
+        let apiClient: IRecognitionClient = new RecognitionClient();
+        await apiClient.postRecognizePerson({
+            base64String: String(this.frontCameraData?.base64)
+        }).then((response: Response | null) => {
+            if (response?.status == 200) {
+                response?.text().then((_responseText: string) => {
+                    AccessProcessingView.isGranted = 1;
+                    console.log(_responseText);
+                    var _responseJson = JSON.parse(_responseText);
+
+                    this.addAttendeeData(_responseJson);
+                });
+            }
+            else if (response?.status == 404) {
+                response?.text().then((_responseText: string) => {
+                    console.log(_responseText);
+                });
+                AccessProcessingView.isGranted = 2;
+            }
+        });
     }
 
     public static takePictureFromFrontCamera = async () => {
@@ -36,7 +76,6 @@ class DisplayCameraStatus {
         }
         catch (ex) {
             console.error(ex);
-            //await this.takePictureFromFrontCamera();
         }
     }
 
@@ -56,5 +95,3 @@ class DisplayCameraStatus {
         }
     }
 }
-
-export default DisplayCameraStatus;

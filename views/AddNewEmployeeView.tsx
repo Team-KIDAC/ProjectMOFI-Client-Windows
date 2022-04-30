@@ -10,8 +10,7 @@ import {
 } from 'react-native';
 
 import { RNCamera } from 'react-native-camera';
-
-import AccessStatus from '../components/AccessStatus';
+import { AttendeeClient, IAttendeeClient } from '../ApiClient/ApiClient';
 
 type MyProps = {
 
@@ -22,7 +21,10 @@ type MyState = {
     DepartmentName: string,
     VaccinationName: string,
     NumberOfTakenPhotos: number,
-    ImgArray: []
+    FirstImageBase64: string,
+    ImagePath: string,
+    ImgArray: [],
+    ImgBase64Array: []
 };
 
 var TakenPhotoModel = ({ item }) => (
@@ -31,14 +33,17 @@ var TakenPhotoModel = ({ item }) => (
     </View>
 );
 
-class AddNewEmployeeView extends React.Component<MyProps, MyState> {
+export default class AddNewEmployeeView extends React.Component<MyProps, MyState> {
     state: MyState = {
         EmployeeId: "",
         EmployeeName: "",
         DepartmentName: "",
         VaccinationName: "",
         NumberOfTakenPhotos: 0,
-        ImgArray: []
+        FirstImageBase64: "",
+        ImagePath: "",
+        ImgArray: [],
+        ImgBase64Array: []
     };
     camera: any;
 
@@ -81,7 +86,6 @@ class AddNewEmployeeView extends React.Component<MyProps, MyState> {
                         <View style={styles.employeeDetailsView}>
                             <View style={styles.bigImageView}>
                                 <RNCamera ref={ref => { this.camera = ref; }} style={{ width: "100%", height: "100%" }} type={RNCamera.Constants.Type.front} />
-                                {/*faceDetectionMode={RNCamera.Constants.faceDetectionMode.Fas}*/}
                             </View>
                             <View style={styles.captureClearButtonView}>
                                 <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.captureButton}>
@@ -111,9 +115,13 @@ class AddNewEmployeeView extends React.Component<MyProps, MyState> {
                 if (this.camera) {
                     const options = { quality: 1, base64: true };
                     const data = await this.camera.takePictureAsync(options);
+                    if (i == 0) {
+                        this.setState({ FirstImageBase64: String(data.base64) });
+                    }
                     this.setState((prevState) => { prevState.ImgArray.unshift(data.uri) })
+                    this.setState((prevState) => { prevState.ImgBase64Array.unshift(data.base64) })
                     this.setState({ NumberOfTakenPhotos: i + 1 });
-                    console.log(this.state.ImgArray);
+                    console.log(this.state.ImgBase64Array);
                 }
             } catch (ex) {
                 i--;
@@ -121,44 +129,27 @@ class AddNewEmployeeView extends React.Component<MyProps, MyState> {
         }
     }
 
-    getDetails = () => {
-        const request = new XMLHttpRequest();
-
-        request.open("GET", "http://localhost:5118/User");
-        request.send();
-        request.onload = () => {
-
-            if (request.status == 200) {
-                console.log(JSON.parse(request.response));
-            } else {
-                console.log(`error ${request.status}`);
-            }
-        }
-    }
-
-    postDetails = () => {
-
+    postDetails = async () => {
         if (this.state.EmployeeId == "" || this.state.EmployeeName == "" || this.state.DepartmentName == "" || this.state.VaccinationName == "") {
             console.log("Any of the fields cannot be empty!");
         } else {
-            var collectedData = `{
-              "id": "${this.state.EmployeeId}",
-              "name": "${this.state.EmployeeName}",
-              "department": "${this.state.DepartmentName}",
-              "vaccine": "${this.state.VaccinationName}"
-            }`;
 
-            const request = new XMLHttpRequest();
-            request.open("POST", "http://localhost:5118/User");
-            request.setRequestHeader('Content-Type', 'application/json');
-            request.onload = () => {
-                if (request.status == 201) {
-                    console.log(JSON.parse(request.response));
-                } else {
-                    console.log(`error: ${request.status}`);
-                }
-            }
-            request.send(collectedData);
+            let apiPostAttendeeImageClient: IAttendeeClient = new AttendeeClient();
+            await apiPostAttendeeImageClient.postAttendeeImage({
+                attendeeId: this.state.EmployeeId,
+                base64String: this.state.FirstImageBase64
+            }).then((_responseStr: string | null) => {
+                this.setState({ ImagePath: String(_responseStr) });
+            });
+
+            let apiPostAttendeeClient: IAttendeeClient = new AttendeeClient();
+            await apiPostAttendeeClient.postAttendee({
+                id: this.state.EmployeeId,
+                name: this.state.EmployeeName,
+                department: this.state.DepartmentName,
+                vaccine: this.state.VaccinationName,
+                imagePath: this.state.ImagePath
+            }).then((_response: Response | null) => alert("Employee Saved Successfully!"));
         }
 
     }
@@ -290,5 +281,3 @@ const styles = StyleSheet.create({
         fontSize: 20
     }
 });
-
-export default AddNewEmployeeView;

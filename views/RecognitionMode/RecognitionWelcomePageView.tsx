@@ -3,8 +3,6 @@ import {
     View,
     Text,
     Image,
-    TouchableOpacity,
-    TextInput,
 } from 'react-native';
 
 
@@ -15,7 +13,7 @@ type MyState = {
     companyName: string
 };
 
-class RecognitionWelcomePageView extends React.Component<MyProps, MyState> {
+export default class RecognitionWelcomePageView extends React.Component<MyProps, MyState> {
     state: MyState = {
         companyName: "Informatics Institute of Technology"
     };
@@ -40,5 +38,3 @@ class RecognitionWelcomePageView extends React.Component<MyProps, MyState> {
         );
     }
 }
-
-export default RecognitionWelcomePageView;

@@ -7,9 +7,10 @@ import {
     FlatList,
 } from 'react-native';
 import { AttendeeClient, IAttendeeClient } from '../ApiClient/ApiClient';
+import LoggedInUser from '../models/LoggedInUserModel';
 
 type MyProps = {
-
+    authToken: string
 };
 type MyState = {
     pageData: any
@@ -42,9 +43,9 @@ export default class ViewEmployeeDataView extends React.Component<MyProps, MySta
 
     loadAttendees = async () => {
         let apiClient: IAttendeeClient = new AttendeeClient();
-        apiClient.getAttendees().then((_response: string | null) => {
+        apiClient.getAttendees(this.props.authToken).then((_response: string | null) => {
             this.setState({ pageData: JSON.parse(String(_response)) });
-        })
+        });
     }
 
     render() {

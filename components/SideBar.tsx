@@ -6,8 +6,10 @@ import {
     View,
     TouchableOpacity,
 } from 'react-native';
+import LoggedInUser from '../models/LoggedInUserModel';
 
 type MyProps = {
+    loggedInUser: string
     setSelectedComp(compNum: number): void,
     setSelectedComp2(compNum: number, sideBarStatus: boolean, recognitionMode: boolean): void,
     onLogOutPress(): void
@@ -17,13 +19,19 @@ type MyState = {
 };
 
 class SideBar extends React.Component<MyProps, MyState> {
+
+    onLogOutPress = () => {
+        LoggedInUser.ResetUserCred();
+        this.props.onLogOutPress();
+    }
+
     render() {
         return (
             <View>
                 <View style={styles.userDetailsView}>
                     <Image source={require('../assets/icons/account_circle_192e40.svg')} style={styles.userLoginImage} />
-                    <Text style={styles.userNameText}>Kalindu Abayakoon</Text>
-                    <TouchableOpacity onPress={() => { this.props.onLogOutPress() }} >
+                    <Text style={styles.userNameText}>{this.props.loggedInUser}</Text>
+                    <TouchableOpacity onPress={ this.onLogOutPress } >
                         <Text style={styles.logOutButtonText}>Log Out</Text>
                     </TouchableOpacity>
                 </View>

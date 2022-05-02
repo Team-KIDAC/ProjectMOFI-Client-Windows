@@ -1218,13 +1218,13 @@
   resolved "https://registry.npmjs.org/@react-native-community/eslint-plugin/-/eslint-plugin-1.1.0.tgz"
   integrity sha512-W/J0fNYVO01tioHjvYWQ9m6RgndVtbElzYozBq1ZPrHO/iCzlqoySHl4gO/fpCl9QEFjvJfjPgtPMTMlsoq5DQ==
 
-"@react-native-windows/cli@0.67.1":
-  version "0.67.1"
-  resolved "https://registry.npmjs.org/@react-native-windows/cli/-/cli-0.67.1.tgz"
-  integrity sha512-lIVsXxLOhTHed5rzCowEmmTOZRdtRwSlK1F+cMtqd4i4M02UUAUEm5nVWAErkmalEkNhFGjqBW71oTbNVnW6Jw==
+"@react-native-windows/cli@0.67.2":
+  version "0.67.2"
+  resolved "https://registry.yarnpkg.com/@react-native-windows/cli/-/cli-0.67.2.tgz#364f6800976092cba1c41c2ea6cf333f489978ed"
+  integrity sha512-Uu7zaTR/JYFTjVQVKxQZAxnnpUTjx9waNzYvQ4PxqKMiYZ7OhEHXXEOvdufgLE6Of6LXSJtNoykaWA3RgNC+Xw==
   dependencies:
-    "@react-native-windows/package-utils" "0.67.0"
-    "@react-native-windows/telemetry" "0.67.0"
+    "@react-native-windows/package-utils" "0.67.1"
+    "@react-native-windows/telemetry" "0.67.1"
     "@xmldom/xmldom" "^0.7.5"
     chalk "^4.1.0"
     cli-spinners "^2.2.0"
@@ -1243,33 +1243,33 @@
     xml-parser "^1.2.1"
     xpath "^0.0.27"
 
-"@react-native-windows/find-repo-root@0.67.0":
-  version "0.67.0"
-  resolved "https://registry.npmjs.org/@react-native-windows/find-repo-root/-/find-repo-root-0.67.0.tgz"
-  integrity sha512-zzlFcbu6ivOykLYf3aKpQUv5TLmmk6rHqGqFqI/9ZIzPxBcE4MwFcK4ZKHMSq8a19FN2dZS5ItbzDhIgO4MbgA==
+"@react-native-windows/find-repo-root@0.67.1":
+  version "0.67.1"
+  resolved "https://registry.yarnpkg.com/@react-native-windows/find-repo-root/-/find-repo-root-0.67.1.tgz#6293dfdd7fee41648e7a1c0aa7f4fcde97c0577a"
+  integrity sha512-Lvc/JD6Ay3bIpVHG7UQkNv5vFv4+vENjv9jkLkT7eeNhOjYgS/GLwHHrx8eSV1DGcwvMfC5mJCNDnpYdzKMmIQ==
   dependencies:
     find-up "^4.1.0"
 
-"@react-native-windows/package-utils@0.67.0":
-  version "0.67.0"
-  resolved "https://registry.npmjs.org/@react-native-windows/package-utils/-/package-utils-0.67.0.tgz"
-  integrity sha512-MVqeVWQVgbKTygADqC/+kJ+6VwtWtoUClK+/Hlt2bH7ZBSsrbkRx9yxTphefF+D5e1EqSp9PxXsRTU+v34kONg==
+"@react-native-windows/package-utils@0.67.1":
+  version "0.67.1"
+  resolved "https://registry.yarnpkg.com/@react-native-windows/package-utils/-/package-utils-0.67.1.tgz#4af23f9c17aa6742869fb3baefadf014853a813a"
+  integrity sha512-nPqmDDwdDa/0aoTqd2gweq68qB2NpZOhw64wWWUfxg/9ptCzHgevplaxFclhZPg1Q0JuPwgLz9MQFZMDQ/ZLUw==
   dependencies:
-    "@react-native-windows/find-repo-root" "0.67.0"
+    "@react-native-windows/find-repo-root" "0.67.1"
     get-monorepo-packages "^1.2.0"
     lodash "^4.17.15"
 
-"@react-native-windows/telemetry@0.67.0":
-  version "0.67.0"
-  resolved "https://registry.npmjs.org/@react-native-windows/telemetry/-/telemetry-0.67.0.tgz"
-  integrity sha512-bfU8mAIJSmYdopu71seGnuq4a8JvXzok85uAlyrfJzuiA9K42/neRqAZTeGtkIBShRIaB+iaqSRF0sS1l6n9UQ==
+"@react-native-windows/telemetry@0.67.1":
+  version "0.67.1"
+  resolved "https://registry.yarnpkg.com/@react-native-windows/telemetry/-/telemetry-0.67.1.tgz#a87f7a69005814c8365f9f89d3c3637dc588f437"
+  integrity sha512-GhOtqHgggQOATES1J+2SQ7xXpKZksroFnXknJ2rM/o9VG06IMwxoD1UcfWcX8+xXbkIDohVT7nWISRfARJ7/2A==
   dependencies:
     applicationinsights "^1.8.8"
 
-"@react-native-windows/virtualized-list@0.67.0":
-  version "0.67.0"
-  resolved "https://registry.npmjs.org/@react-native-windows/virtualized-list/-/virtualized-list-0.67.0.tgz"
-  integrity sha512-eB7t1r7ONpqP79gDj+9r7HjXomtTBZK2y0skdQ66qfe98kUJWun9XPoZ0zn/mu+I4U14y47QX6PYB6q2Jy6NjQ==
+"@react-native-windows/virtualized-list@0.67.1":
+  version "0.67.1"
+  resolved "https://registry.yarnpkg.com/@react-native-windows/virtualized-list/-/virtualized-list-0.67.1.tgz#a6d888d9dbfc950d0caf1b113aaf0de8ec81c5a7"
+  integrity sha512-GHrQXsQvgiTnl5kHG5PdAaz/gSdIItV2mb+PV1NT1bDfgNDKunRQD4EEYEt/Th82zn9G6hGdUUT6qEvmAf4e5g==
   dependencies:
     invariant "^2.2.4"
 
@@ -5742,21 +5742,21 @@ react-native-codegen@^0.0.8:
 
 react-native-countdown-circle-timer@^3.0.9:
   version "3.0.9"
-  resolved "https://registry.yarnpkg.com/react-native-countdown-circle-timer/-/react-native-countdown-circle-timer-3.0.9.tgz#ef16c9301197922669bc3afa498d5a1218e59aa9"
+  resolved "https://registry.npmjs.org/react-native-countdown-circle-timer/-/react-native-countdown-circle-timer-3.0.9.tgz"
   integrity sha512-7djFk+2QQS9FAhfIUhwQoc+P/7Vkn9EJApr6zUWK9B5QvHP07UlqIWfhIPqqeMa4kP6y5Y2S3YL+xeRsq2tNfg==
 
-react-native-windows@0.67.4:
-  version "0.67.4"
-  resolved "https://registry.npmjs.org/react-native-windows/-/react-native-windows-0.67.4.tgz"
-  integrity sha512-p6botblTIQIWxF1o6vSAbgL3qdi4BunxR6LIfefpKoN5ONPGI3xHi7uJtbzj9/UMIl6z3hoaEReOHpPnm5N4bQ==
+react-native-windows@0.67.8:
+  version "0.67.8"
+  resolved "https://registry.yarnpkg.com/react-native-windows/-/react-native-windows-0.67.8.tgz#9edc5198a5c74e0136f55837f8a51819bb537065"
+  integrity sha512-KG+5cKRKV4WSa8AFKVCJ6tCc0iPHC0ZbLE5EkAdd/gC+E3sliDdLWIR4hcjFvoeqnCmNIlEWEJfEiI4rP0FNBg==
   dependencies:
     "@babel/runtime" "^7.0.0"
     "@jest/create-cache-key-function" "^27.0.1"
     "@react-native-community/cli" "^6.0.0"
     "@react-native-community/cli-platform-android" "^6.0.0"
     "@react-native-community/cli-platform-ios" "^6.0.0"
-    "@react-native-windows/cli" "0.67.1"
-    "@react-native-windows/virtualized-list" "0.67.0"
+    "@react-native-windows/cli" "0.67.2"
+    "@react-native-windows/virtualized-list" "0.67.1"
     "@react-native/assets" "1.0.0"
     "@react-native/normalize-color" "2.0.0"
     "@react-native/polyfills" "2.0.0"

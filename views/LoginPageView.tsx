@@ -7,15 +7,43 @@ import {
     TextInput,
     StyleSheet,
 } from 'react-native';
+import { AuthClient, IAuthClient } from '../ApiClient/ApiClient';
+import LoggedInUser from '../models/LoggedInUserModel';
 
 type MyProps = {
+    //setAuthToken(authToken: string, loggedInUsername: string): any,
     setSelectedComp(compNum: number, sideBarStatus: boolean): any
 };
 type MyState = {
-
+    LoginUsername: string,
+    LoginPassword: string
 };
 
 export default class LoginPageView extends React.Component<MyProps, MyState> {
+
+    state: MyState = {
+        LoginUsername: "",
+        LoginPassword: ""
+    }
+
+    sendLoginDetails = () => {
+        let apiClient: IAuthClient = new AuthClient();
+        apiClient.loginUser({
+            username: this.state.LoginUsername,
+            password: this.state.LoginPassword
+        }).then((authToken: string) => {
+            apiClient.loggedInUser(authToken).then((_response: Response | null) => {
+                if (_response?.status == 200) {
+                    _response.text().then((_responseText) => {
+                        //this.props.setAuthToken(authToken, _responseText);
+                        LoggedInUser.SetAuthToken(authToken);
+                        LoggedInUser.SetUsername(_responseText);
+                        this.props.setSelectedComp(1, true);
+                    });
+                }
+            })
+        });
+    }
 
     render() {
         return (
@@ -33,11 +61,14 @@ export default class LoginPageView extends React.Component<MyProps, MyState> {
                         </View>
                         <View style={styles.sectionFuncView}>
                             <Text style={styles.funcTopicText}>Username*</Text>
-                            <TextInput style={styles.funcInputTextInput} />
+                            <TextInput style={styles.funcInputTextInput} onChangeText={text => { this.setState({ LoginUsername: text }) }} />
                             <Text style={styles.funcTopicText}>Password*</Text>
-                            <TextInput style={styles.funcInputTextInput} />
+                            <TextInput style={styles.funcInputTextInput} onChangeText={text => { this.setState({ LoginPassword: text }) }} />
 
-                            <TouchableOpacity onPress={() => { this.props.setSelectedComp(1, true) }} style={styles.loginButton}>
+                            {/*<TouchableOpacity onPress={() => { this.props.setSelectedComp(1, true) }} style={styles.loginButton}>*/}
+                            {/*    <Text style={styles.loginButtonText}>Login</Text>*/}
+                            {/*</TouchableOpacity>*/}
+                            <TouchableOpacity onPress={this.sendLoginDetails} style={styles.loginButton}>
                                 <Text style={styles.loginButtonText}>Login</Text>
                             </TouchableOpacity>
                         </View>

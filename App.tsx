@@ -12,6 +12,7 @@ import AddNewEmployeeView from './views/AddNewEmployeeView';
 import ViewEmployeeDataView from './views/ViewEmployeeDataView';
 import ViewAttendanceReportView from './views/ViewAttendanceReportView';
 import FaceRecognitionModeView from './views/FaceRecognitionModeView';
+import LoggedInUser from './models/LoggedInUserModel';
 
 
 type MyProps = {
@@ -37,7 +38,7 @@ export default class App extends React.Component<MyProps, MyState> {
                     (this.state.IsSideBarActive) ?
                         (
                             <View style={styles.sideBarWindow}>
-                                <SideBar setSelectedComp={(compNum: number) => { this.setState({ selectedComp: compNum }) }} setSelectedComp2={(compNum: number, sideBarStatus: boolean, recognitionMode: boolean) => { this.setState({ selectedComp: compNum, IsSideBarActive: sideBarStatus, IsRecognitionModeActive: true }) }} onLogOutPress={() => { this.setState({ selectedComp: 0, IsSideBarActive: false }) }} />
+                                <SideBar loggedInUser={LoggedInUser.GetUsername()} setSelectedComp={(compNum: number) => { this.setState({ selectedComp: compNum }) }} setSelectedComp2={(compNum: number, sideBarStatus: boolean, recognitionMode: boolean) => { this.setState({ selectedComp: compNum, IsSideBarActive: sideBarStatus, IsRecognitionModeActive: true }) }} onLogOutPress={() => { this.setState({ selectedComp: 0, IsSideBarActive: false }) }} />
                                 <View style={styles.bottomLogoView}>
                                     <Image source={require('../assets/images/ProjectMOFI.svg')} style={styles.bottomLogoImage} />
                                 </View>
@@ -51,7 +52,7 @@ export default class App extends React.Component<MyProps, MyState> {
                             : (this.state.selectedComp == 1) ? <LoggedWelcomePageView />
                                 : (this.state.selectedComp == 2) ? <FaceRecognitionModeView setFaceRecognitionMode={(isRecognitionModeActive: boolean) => { this.setState({ IsRecognitionModeActive: isRecognitionModeActive, selectedComp: 1, IsSideBarActive: true }) }} />
                                     : (this.state.selectedComp == 3) ? <AddNewEmployeeView />
-                                        : (this.state.selectedComp == 4) ? <ViewEmployeeDataView />
+                                        : (this.state.selectedComp == 4) ? <ViewEmployeeDataView authToken={LoggedInUser.GetAuthToken()} />
                                             : (this.state.selectedComp == 5) ? <ViewAttendanceReportView />
                                                 : null
                     }

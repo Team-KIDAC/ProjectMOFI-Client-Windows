@@ -15,7 +15,7 @@
     "react-native": "0.67.3",
     "react-native-camera": "^4.2.1",
     "react-native-countdown-circle-timer": "^3.0.9",
-    "react-native-windows": "0.67.4"
+    "react-native-windows": "0.67.8"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

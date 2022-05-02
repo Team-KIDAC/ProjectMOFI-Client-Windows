@@ -7,11 +7,11 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="e7d4d53a-9f86-4b53-b51a-f418863484e1"
+    Name="f4309ad0-654e-4531-abc1-5d745066a5b1"
     Publisher="CN=kalindu Rithmal"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="e7d4d53a-9f86-4b53-b51a-f418863484e1" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="f4309ad0-654e-4531-abc1-5d745066a5b1" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>projectmofi</DisplayName>
@@ -46,7 +46,7 @@
 
   <Capabilities>
     <Capability Name="internetClient" />
-    <DeviceCapability Name="webcam"/>
     <DeviceCapability Name="microphone"/>
+    <DeviceCapability Name="webcam"/>
   </Capabilities>
 </Package>

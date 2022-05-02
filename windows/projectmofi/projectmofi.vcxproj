@@ -6,7 +6,7 @@
     <CppWinRTOptimized>true</CppWinRTOptimized>
     <CppWinRTRootNamespaceAutoMerge>true</CppWinRTRootNamespaceAutoMerge>
     <MinimalCoreWin>true</MinimalCoreWin>
-    <ProjectGuid>{63090c94-4908-45e9-99e8-98ac9927da03}</ProjectGuid>
+    <ProjectGuid>{6ac974e7-75d8-41a6-9b5c-c730b85bfa54}</ProjectGuid>
     <ProjectName>projectmofi</ProjectName>
     <RootNamespace>projectmofi</RootNamespace>
     <DefaultLanguage>en-US</DefaultLanguage>

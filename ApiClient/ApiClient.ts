@@ -4,6 +4,8 @@
 // </auto-generated>
 //----------------------
 
+import LoggedInUser from "../models/LoggedInUserModel";
+
 /* tslint:disable */
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
@@ -22,7 +24,7 @@ export class AttendanceRecordClient implements IAttendanceRecordClient {
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
         this.http = http ? http : window as any;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://mofiapi.azurewebsites.net";
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://mofiapi-dev2.azurewebsites.net";
     }
 
     getAttendanceRecords(): Promise<string | null> {
@@ -32,7 +34,8 @@ export class AttendanceRecordClient implements IAttendanceRecordClient {
         let options_: RequestInit = {
             method: "GET",
             headers: {
-                "Accept": "application/octet-stream"
+                "Accept": "application/octet-stream",
+                "Authorization": "bearer " + LoggedInUser.GetAuthToken()
             }
         };
 
@@ -67,7 +70,8 @@ export class AttendanceRecordClient implements IAttendanceRecordClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/octet-stream"
+                "Accept": "application/octet-stream",
+                "Authorization": "bearer " + LoggedInUser.GetAuthToken()
             }
         };
 
@@ -95,7 +99,7 @@ export class AttendanceRecordClient implements IAttendanceRecordClient {
 
 export interface IAttendeeClient {
 
-    getAttendees(): Promise<string | null>;
+    getAttendees(authToken: string): Promise<string | null>;
 
     postAttendee(newAttendee: Attendee): Promise<Response | null>;
 
@@ -113,17 +117,20 @@ export class AttendeeClient implements IAttendeeClient {
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
         this.http = http ? http : window as any;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://mofiapi.azurewebsites.net";
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://mofiapi-dev2.azurewebsites.net";
     }
 
-    getAttendees(): Promise<string | null> {
+
+    getAttendees(authToken: string): Promise<string | null> {
         let url_ = this.baseUrl + "/Attendee";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
             method: "GET",
             headers: {
-                "Accept": "application/octet-stream"
+                "Accept": "application/octet-stream",
+                "Authorization": "bearer " + LoggedInUser.GetAuthToken()
+                //"Authorization": "bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiS2FsaW5kdSBBYmF5YWtvb24iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdHVkZW50IiwiZXhwIjoxNjUxNDk0NTk3fQ.t7CFRAxH4sdEVhBozFW9iMKXr3y05b6NWLwRecuTJBIdSLjsXfVVORyz4_gFdDQYpmsPdLpI4vqV2ceNVuowDg"
             }
         };
 
@@ -135,13 +142,22 @@ export class AttendeeClient implements IAttendeeClient {
     protected processGetAttendees(response: Response): Promise<string | null> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200 || status === 206) {
+
+        if (status === 200) {
             return response.text().then((_responseText: string) => {
                 return Promise.resolve<string>(_responseText);
             });
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+                return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+                return throwException("Forbidden", status, _responseText, _headers);
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<string | null>(null as any);
@@ -158,7 +174,8 @@ export class AttendeeClient implements IAttendeeClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/octet-stream"
+                "Accept": "application/octet-stream",
+                "Authorization": "bearer " + LoggedInUser.GetAuthToken()
             }
         };
 
@@ -190,7 +207,8 @@ export class AttendeeClient implements IAttendeeClient {
         let options_: RequestInit = {
             method: "GET",
             headers: {
-                "Accept": "application/octet-stream"
+                "Accept": "application/octet-stream",
+                "Authorization": "bearer " + LoggedInUser.GetAuthToken()
             }
         };
 
@@ -225,7 +243,8 @@ export class AttendeeClient implements IAttendeeClient {
         let options_: RequestInit = {
             method: "GET",
             headers: {
-                "Accept": "application/octet-stream"
+                "Accept": "application/octet-stream",
+                "Authorization": "bearer " + LoggedInUser.GetAuthToken()
             }
         };
 
@@ -260,7 +279,8 @@ export class AttendeeClient implements IAttendeeClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/octet-stream"
+                "Accept": "application/octet-stream",
+                "Authorization": "bearer " + LoggedInUser.GetAuthToken()
             }
         };
 
@@ -297,7 +317,7 @@ export class RecognitionClient implements IRecognitionClient {
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
         this.http = http ? http : window as any;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://mofiapi.azurewebsites.net";
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://mofiapi-dev2.azurewebsites.net";
     }
 
     postRecognizePerson(imageDuo: ImageDuo): Promise<Response | null> {
@@ -311,7 +331,8 @@ export class RecognitionClient implements IRecognitionClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/octet-stream"
+                "Accept": "application/octet-stream",
+                "Authorization": "bearer " + LoggedInUser.GetAuthToken()
             }
         };
 
@@ -334,6 +355,106 @@ export class RecognitionClient implements IRecognitionClient {
         }
         return Promise.resolve<Response | null>(null as any);
     }
+}
+
+export interface IAuthClient {
+
+    loginUser(body: LoginUserDto | undefined): Promise<string>;
+
+    loggedInUser(authToken: string): Promise<Response | null>;
+}
+
+export class AuthClient implements IAuthClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        this.http = http ? http : window as any;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://mofiapi-dev2.azurewebsites.net";
+    }
+
+    loginUser(body: LoginUserDto | undefined): Promise<string> {
+        let url_ = this.baseUrl + "/Auth/LoginUser";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_: RequestInit = {
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processLoginUser(_response);
+        });
+    }
+
+    protected processLoginUser(response: Response): Promise<string> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText: string) => {
+                return Promise.resolve<string>(_responseText);
+            });
+        } else if (status === 400) {
+            response.text().then((_responseText) => {
+                alert(_responseText);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<string>(null as any);
+    }
+
+    loggedInUser(authToken: string): Promise<Response | null> {
+        let url_ = this.baseUrl + "/Auth/LoggedInUser";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: RequestInit = {
+            method: "GET",
+            headers: {
+                "Accept": "text/plain",
+                "Authorization": "bearer " + authToken
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processLoggedInUser(_response);
+        });
+    }
+
+    protected processLoggedInUser(response: Response): Promise<Response | null> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return Promise.resolve<Response>(response);
+        } else if (status === 401) {
+            return response.text().then((_responseText) => {
+                return throwException("Unauthorized", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return response.text().then((_responseText) => {
+                return throwException("Forbidden", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Response>(null as any);
+    }
+}
+
+export interface LoginUserDto {
+    username?: string | undefined;
+    password?: string | undefined;
 }
 
 export interface AttendanceRecord {

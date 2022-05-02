@@ -35,6 +35,7 @@ export default class App extends React.Component<MyProps, MyState> {
         return (
             <View style={styles.mainWindowView}>
                 {
+                    //A ternary conditional operator to show the sidebar if needed.
                     (this.state.IsSideBarActive) ?
                         (
                             <View style={styles.sideBarWindow}>
@@ -48,6 +49,7 @@ export default class App extends React.Component<MyProps, MyState> {
                 }
                 <View style={(this.state.IsSideBarActive) ? styles.contentSectionView : (this.state.IsRecognitionModeActive) ? styles.contentSectionViewWithRecongizeMode : styles.contentSectionViewWithoutSideBar}>
                     {
+                        //Showing the views according to the state.
                         (this.state.selectedComp == 0) ? <LoginPageView setSelectedComp={(compNum: number, sideBarStatus: boolean) => { this.setState({ selectedComp: compNum, IsSideBarActive: sideBarStatus }) }} />
                             : (this.state.selectedComp == 1) ? <LoggedWelcomePageView />
                                 : (this.state.selectedComp == 2) ? <FaceRecognitionModeView setFaceRecognitionMode={(isRecognitionModeActive: boolean) => { this.setState({ IsRecognitionModeActive: isRecognitionModeActive, selectedComp: 1, IsSideBarActive: true }) }} />
@@ -67,7 +69,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         backgroundColor: "#011e36",
         height: "100%",
-        //padding: 10
     },
     sideBarWindow: {
         backgroundColor: "#011e36",

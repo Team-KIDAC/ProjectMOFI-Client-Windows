@@ -23,11 +23,12 @@ export default class AccessProcessingView extends React.Component<MyProps, MySta
     myDate: Date = new Date();
     dateNow: string = "";
     timeNow: string = "";
+
+    //A method to send the taken images to the api in order to identify.
     sentImagesToApi = async () => {
         try {
             console.log(AccessProcessingView.isGranted);
             await DisplayCameraStatus.sendImagesToApi();
-            //new Promise(resolve => setTimeout(resolve, 3000));
 
             if (AccessProcessingView.isGranted == 1) {
                 await this.props.setSelectedRecognitionComp(3);
@@ -49,6 +50,7 @@ export default class AccessProcessingView extends React.Component<MyProps, MySta
     render() {
         this.sentImagesToApi();
         return (
+            //A simple view to show the processing status.
             <View style={{ display: 'flex', flexDirection: 'column', width: "100%", height: "100%" }}>
                 <View style={{ width: "70%", height: "110%", position: 'absolute', top: "20%", right: "70%", borderRadius: 500, borderColor: "brown", borderWidth: 3 }}></View>
                 <View style={{ width: "70%", height: "110%", position: 'absolute', bottom: "20%", left: "60%", borderRadius: 500, borderColor: "#2f5c83", borderWidth: 3 }}></View>

@@ -38,6 +38,7 @@ export default class DisplayCameraStatusView extends React.Component<MyProps, My
                 </View>
                 <View style={styles.CameraStatusView}>
                     <View style={styles.DevidedCameraView}>
+                        {/*Showing the react native camera for the front view of the person.*/}
                         <Text style={styles.CameraTitleText}>Front View</Text>
                         <View style={styles.CameraHookView}>
                             {/*<RNCamera ref={ref => { DisplayCameraStatus.frontCamera = ref; }} style={styles.CameraHook} type={RNCamera.Constants.Type.front} />*/}
@@ -45,6 +46,7 @@ export default class DisplayCameraStatusView extends React.Component<MyProps, My
                         </View>
                     </View>
                     <View style={styles.DevidedCameraView}>
+                        {/*Showing the react native camera for the side view of the person.*/}
                         <Text style={styles.CameraTitleText}>Side View</Text>
                         <View style={styles.CameraHookView}>
                             {/*<RNCamera ref={ref => { DisplayCameraStatus.sideCamera = ref; }} style={styles.CameraHook} type={RNCamera.Constants.Type.back} />*/}
@@ -54,6 +56,7 @@ export default class DisplayCameraStatusView extends React.Component<MyProps, My
                 </View>
                 <View style={styles.ProcessingSectionView}>
                     <View style={styles.CompareButtonView}>
+                        {/*A button to start the processing of the images.*/}
                         <TouchableOpacity onPress={this.onCompareButtonPress} style={styles.CompareButton}>
                             <Text style={styles.CompareButtonText} >Compare With Database</Text>
                             <Image source={require('../assets/icons/sync_white_24dp.svg')} style={styles.CompareButtonImage} />

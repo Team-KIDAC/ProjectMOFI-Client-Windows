@@ -59,6 +59,8 @@ export default class AddNewEmployeeView extends React.Component<MyProps, MyState
                             <View style={styles.topicBottomLine}></View>
                         </View>
                         <View style={styles.employeeDetailsView}>
+
+                            {/*Getting the inputs from the user.*/}
                             <Text style={styles.inputTopic}>Employee ID</Text>
                             <TextInput style={styles.inputText} onChangeText={text => { this.setState({ EmployeeId: text }) }} />
                             <Text style={styles.inputTopic}>Employee Name</Text>
@@ -68,11 +70,11 @@ export default class AddNewEmployeeView extends React.Component<MyProps, MyState
                             <Text style={styles.inputTopic}>Vaccination Name</Text>
                             <TextInput style={styles.inputText} onChangeText={text => { this.setState({ VaccinationName: text }) }} />
 
+                            {/*Showing the stripe of the taken images.*/}
                             <Text style={styles.inputTopic}>Photos ({this.state.NumberOfTakenPhotos} Photos)</Text>
                             <View style={styles.capturedSmallImagesView}>
                                 {(this.state.NumberOfTakenPhotos > 0) ? <FlatList data={this.state.ImgArray} horizontal style={{ width: "100%", height: "100%" }} renderItem={TakenPhotoModel} /> : null}
                             </View>
-
                         </View>
 
                     </View>
@@ -84,9 +86,13 @@ export default class AddNewEmployeeView extends React.Component<MyProps, MyState
                             <View style={styles.topicBottomLine}></View>
                         </View>
                         <View style={styles.employeeDetailsView}>
+
+                            {/*React Native Camera View.*/}
                             <View style={styles.bigImageView}>
                                 <RNCamera ref={ref => { this.camera = ref; }} style={{ width: "100%", height: "100%" }} type={RNCamera.Constants.Type.front} />
                             </View>
+
+                            {/*Buttons to capture and to clear the taken images.*/}
                             <View style={styles.captureClearButtonView}>
                                 <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.captureButton}>
                                     <Text style={styles.captureClearButtonText} >Capture</Text>
@@ -95,6 +101,8 @@ export default class AddNewEmployeeView extends React.Component<MyProps, MyState
                                     <Text style={styles.captureClearButtonText} >Clear</Text>
                                 </TouchableOpacity>
                             </View>
+
+                            {/*Button to save the infomations about the attendee.*/}
                             <View style={{ marginTop: 15 }}>
                                 <TouchableOpacity style={styles.saveButton} onPress={this.postDetails}>
                                     <Text style={styles.saveButtonText} >SAVE EMPLOYEE DATA</Text>

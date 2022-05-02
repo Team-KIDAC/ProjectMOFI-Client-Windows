@@ -11,7 +11,6 @@ import { AuthClient, IAuthClient } from '../ApiClient/ApiClient';
 import LoggedInUser from '../models/LoggedInUserModel';
 
 type MyProps = {
-    //setAuthToken(authToken: string, loggedInUsername: string): any,
     setSelectedComp(compNum: number, sideBarStatus: boolean): any
 };
 type MyState = {
@@ -26,6 +25,7 @@ export default class LoginPageView extends React.Component<MyProps, MyState> {
         LoginPassword: ""
     }
 
+    //A function to get the JWT token of the entered user.
     sendLoginDetails = () => {
         let apiClient: IAuthClient = new AuthClient();
         apiClient.loginUser({
@@ -35,7 +35,6 @@ export default class LoginPageView extends React.Component<MyProps, MyState> {
             apiClient.loggedInUser(authToken).then((_response: Response | null) => {
                 if (_response?.status == 200) {
                     _response.text().then((_responseText) => {
-                        //this.props.setAuthToken(authToken, _responseText);
                         LoggedInUser.SetAuthToken(authToken);
                         LoggedInUser.SetUsername(_responseText);
                         this.props.setSelectedComp(1, true);
@@ -60,14 +59,14 @@ export default class LoginPageView extends React.Component<MyProps, MyState> {
                             <View style={styles.sectionTopicUnderlineView}></View>
                         </View>
                         <View style={styles.sectionFuncView}>
+
+                            {/*Getting the inputs from the user.*/}
                             <Text style={styles.funcTopicText}>Username*</Text>
                             <TextInput style={styles.funcInputTextInput} onChangeText={text => { this.setState({ LoginUsername: text }) }} />
                             <Text style={styles.funcTopicText}>Password*</Text>
-                            <TextInput style={styles.funcInputTextInput} onChangeText={text => { this.setState({ LoginPassword: text }) }} />
+                            <TextInput style={styles.funcInputTextInput} secureTextEntry={true} onChangeText={text => { this.setState({ LoginPassword: text }) }} />
 
-                            {/*<TouchableOpacity onPress={() => { this.props.setSelectedComp(1, true) }} style={styles.loginButton}>*/}
-                            {/*    <Text style={styles.loginButtonText}>Login</Text>*/}
-                            {/*</TouchableOpacity>*/}
+                            {/*A button to trigger the  sendLoginDetails function.*/}
                             <TouchableOpacity onPress={this.sendLoginDetails} style={styles.loginButton}>
                                 <Text style={styles.loginButtonText}>Login</Text>
                             </TouchableOpacity>

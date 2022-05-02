@@ -20,6 +20,7 @@ export default class RecognitionWelcomePageView extends React.Component<MyProps,
 
     render() {
         return (
+            //A simple view to show a welcome page in the recognition mode.
             <View style={{ backgroundColor: "#f7f7f7", display: 'flex', flexDirection: 'row', width: "100%", height: "100%" }}>
                 <View style={{ height: "100%", width: "50%" }}>
                     <Image source={require('../assets/images/WelcomeScreenBackgroundImage.jpg')} style={{ borderBottomRightRadius: 1200, borderTopRightRadius: 1000, marginTop: -100, marginLeft: "-20%", resizeMode: 'cover', width: "120%", height: "99%" }} />

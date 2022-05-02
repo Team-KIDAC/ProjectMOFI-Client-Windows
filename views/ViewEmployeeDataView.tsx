@@ -16,6 +16,7 @@ type MyState = {
     pageData: any
 };
 
+//A template to show the returned details of the employees using a FlatList.
 var AttendanceRecordListItem = ({ item }) => (
     <View style={styles.AttendanceRecordListItemView}>
         <View style={styles.AttendanceRecordListItemIdView}>
@@ -41,6 +42,7 @@ export default class ViewEmployeeDataView extends React.Component<MyProps, MySta
         pageData: []
     }
 
+    //A method to get the details of the attendees using the ASP.NET API.
     loadAttendees = async () => {
         let apiClient: IAttendeeClient = new AttendeeClient();
         apiClient.getAttendees(this.props.authToken).then((_response: string | null) => {
@@ -68,6 +70,8 @@ export default class ViewEmployeeDataView extends React.Component<MyProps, MySta
                             <Text style={styles.AttendanceRecordListItemTitleIdPhotoText}>Photo</Text>
                         </View>
                         <View style={styles.AttendanceRecordListItemWrapperView}>
+
+                            {/*A FlatList to display the returned details of the Employees using the above template.*/}
                             <FlatList data={this.state.pageData} keyExtractor={(item) => item.id} renderItem={AttendanceRecordListItem} />
                         </View>
                     </View>

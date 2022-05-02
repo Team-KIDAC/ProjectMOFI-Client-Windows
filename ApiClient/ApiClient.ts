@@ -24,7 +24,7 @@ export class AttendanceRecordClient implements IAttendanceRecordClient {
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
         this.http = http ? http : window as any;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://mofiapi-dev2.azurewebsites.net";
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://mofiapi.azurewebsites.net";
     }
 
     getAttendanceRecords(): Promise<string | null> {
@@ -117,7 +117,7 @@ export class AttendeeClient implements IAttendeeClient {
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
         this.http = http ? http : window as any;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://mofiapi-dev2.azurewebsites.net";
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://mofiapi.azurewebsites.net";
     }
 
 
@@ -130,7 +130,6 @@ export class AttendeeClient implements IAttendeeClient {
             headers: {
                 "Accept": "application/octet-stream",
                 "Authorization": "bearer " + LoggedInUser.GetAuthToken()
-                //"Authorization": "bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiS2FsaW5kdSBBYmF5YWtvb24iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdHVkZW50IiwiZXhwIjoxNjUxNDk0NTk3fQ.t7CFRAxH4sdEVhBozFW9iMKXr3y05b6NWLwRecuTJBIdSLjsXfVVORyz4_gFdDQYpmsPdLpI4vqV2ceNVuowDg"
             }
         };
 
@@ -317,7 +316,7 @@ export class RecognitionClient implements IRecognitionClient {
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
         this.http = http ? http : window as any;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://mofiapi-dev2.azurewebsites.net";
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://mofiapi.azurewebsites.net";
     }
 
     postRecognizePerson(imageDuo: ImageDuo): Promise<Response | null> {
@@ -371,7 +370,7 @@ export class AuthClient implements IAuthClient {
 
     constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
         this.http = http ? http : window as any;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://mofiapi-dev2.azurewebsites.net";
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "https://mofiapi.azurewebsites.net";
     }
 
     loginUser(body: LoginUserDto | undefined): Promise<string> {

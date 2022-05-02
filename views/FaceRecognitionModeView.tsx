@@ -26,6 +26,8 @@ export default class FaceRecognitionModeView extends React.Component<MyProps, My
         return (
             <View style={{ width: "100%", height: "100%", backgroundColor: "white" }}>
                 <View style={{ position: "absolute", zIndex: 2, right: 0, top: 0 }}>
+
+                    {/*A button to exit from the face recognition mode.*/}
                     <TouchableOpacity onPress={() => { this.props.setFaceRecognitionMode(false) }} style={{ width: 250, alignItems: 'center', height: 50, borderColor: "red", borderBottomWidth: 10, borderBottomLeftRadius: 30 }}>
                         <View style={{ display: 'flex', flexDirection: 'row' }}>
                             <Text style={{ fontSize: 20, color: "red", paddingBottom: 10, marginLeft: 5 }}>
@@ -36,6 +38,7 @@ export default class FaceRecognitionModeView extends React.Component<MyProps, My
                 </View>
                 <View>
                     {
+                        //Selecting the ciews of the face recognition mode according to the state.
                         (this.state.selectedRecognitionComp == 0) ? <RecognitionWelcomePageView />
                             : (this.state.selectedRecognitionComp == 1) ? <DisplayCameraStatusView setSelectedRecognitionComp={(compNum: number) => { this.setState({ selectedRecognitionComp: compNum }) }} />
                                 : (this.state.selectedRecognitionComp == 2) ? <AccessProcessingView setSelectedRecognitionComp={(compNum: number) => { this.setState({ selectedRecognitionComp: compNum }) }} />
@@ -44,6 +47,7 @@ export default class FaceRecognitionModeView extends React.Component<MyProps, My
                     }
                 </View>
                 <View style={{ position: "absolute", zIndex: 2, right: 0, bottom: 0 }}>
+                    {/*A button to go into the next page.*/}
                     <TouchableOpacity onPress={() => { (this.state.selectedRecognitionComp == 3) ? this.setState({ selectedRecognitionComp: 0 }) : this.setState({ selectedRecognitionComp: this.state.selectedRecognitionComp + 1 }) }} style={{ width: 250, alignItems: 'center', height: 50, borderColor: "#011e36", borderTopWidth: 10, borderTopLeftRadius: 30 }}>
                         <View style={{ display: 'flex', flexDirection: 'row' }}>
                             <Text style={{ fontSize: 20, color: "#011e36", paddingBottom: 10, marginLeft: 5 }}>

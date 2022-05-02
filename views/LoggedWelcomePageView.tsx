@@ -18,6 +18,7 @@ export default class LoggedWelcomePageView extends React.Component<MyProps, MySt
         return (
             <View>
                 <View style={styles.pageWrapperView}>
+                    {/*A minimal welcome page.*/}
                     <View style={styles.welcomeTextWrapperView}>
                         <Text style={styles.welcomeText1}>WELCOME !</Text>
                         <Text style={styles.welcomeText2}>To the attendance system using masked face recognition.</Text>

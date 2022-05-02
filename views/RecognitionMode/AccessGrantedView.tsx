@@ -27,11 +27,6 @@ export default class AccessGrantedView extends React.Component<MyProps, MyState>
         attendeeTime:"",
     }
 
-    //startAnotherCircle = async () => {
-    //    await new Promise(resolve => setTimeout(resolve, 4000));
-    //    await this.props.setSelectedRecognitionComp(1);
-    //}
-
     afterGranted = () => {
         let apiClient: IAttendanceRecordClient = new AttendanceRecordClient();
         apiClient.postAttendanceRecord({
@@ -44,6 +39,7 @@ export default class AccessGrantedView extends React.Component<MyProps, MyState>
         });
     }
 
+    //A method to update the details of the identified attendee.
     updateDetails = async () => {
         await new Promise(resolve => setTimeout(resolve, 2000));
         await this.setState({
@@ -58,6 +54,7 @@ export default class AccessGrantedView extends React.Component<MyProps, MyState>
         //this.startAnotherCircle();
         this.updateDetails();
         return (
+            //A simple view to show the access granted message with the details of the identified attendee.
             <View style={{ display: 'flex', flexDirection: 'column', width: "100%", height: "100%" }}>
                 <View style={{ width: "70%", height: "110%", position: 'absolute', top: "20%", right: "70%", borderRadius: 500, borderColor: "brown", borderWidth: 3 }}></View>
                 <View style={{ width: "70%", height: "110%", position: 'absolute', bottom: "20%", left: "60%", borderRadius: 500, borderColor: "#2f5c83", borderWidth: 3 }}></View>

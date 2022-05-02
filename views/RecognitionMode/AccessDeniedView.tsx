@@ -23,6 +23,7 @@ export default class AccessDeniedView extends React.Component<MyProps, MyState> 
 
     render() {
         return (
+            //A simple view to show the access denied message.
             <View style={{ display: 'flex', flexDirection: 'column', width: "100%", height: "100%" }}>
                 <View style={{ width: "70%", height: "110%", position: 'absolute', top: "20%", right: "70%", borderRadius: 500, borderColor: "brown", borderWidth: 3 }}></View>
                 <View style={{ width: "70%", height: "110%", position: 'absolute', bottom: "20%", left: "60%", borderRadius: 500, borderColor: "#2f5c83", borderWidth: 3 }}></View>

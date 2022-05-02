@@ -16,6 +16,7 @@ type MyState = {
     pageData: any
 };
 
+//A template to show the returned details of the attendance records using a FlatList.
 var AttendanceRecordListItem = ({ item }) => (
     <View style={styles.AttendanceRecordListItemView}>
         <View style={styles.AttendanceRecordListItemIdView}>
@@ -62,6 +63,8 @@ export default class ViewAttendanceReportView extends React.Component<MyProps, M
                             <Text style={styles.AttendanceRecordListItemTitleIdPhotoText}>Photo</Text>
                         </View>
                         <View style={styles.AttendanceRecordListItemWrapperView}>
+
+                            {/*A FlatList to display the returned details of the attendance records using the above template.*/}
                             <FlatList data={this.state.pageData} inverted keyExtractor={(item) => item.attendanceRecordId} renderItem={AttendanceRecordListItem} />
                         </View>
                     </View>
@@ -70,7 +73,7 @@ export default class ViewAttendanceReportView extends React.Component<MyProps, M
         );
     }
 
-
+    //A method to get the details of the attendance records using the ASP.NET API.
     getDetails = async () => {
         let apiClient: IAttendanceRecordClient = new AttendanceRecordClient();
         apiClient.getAttendanceRecords().then((response: string | null) => this.setState({ pageData: JSON.parse(String(response)) }));
